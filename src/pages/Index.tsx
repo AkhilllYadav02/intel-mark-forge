@@ -38,21 +38,60 @@ const Index = () => {
     }
   };
 
-  const CurrentComponent = steps[currentStep].component;
+  const renderCurrentStep = () => {
+    switch (currentStep) {
+      case 0:
+        return (
+          <BrandSelector
+            onNext={handleNext}
+            canGoBack={currentStep > 0}
+          />
+        );
+      case 1:
+        return (
+          <BusinessContextForm
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            selectedBrand={selectedBrand}
+            canGoBack={currentStep > 0}
+          />
+        );
+      case 2:
+        return (
+          <StrategyGenerator
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            selectedBrand={selectedBrand}
+            businessContext={businessContext}
+            canGoBack={currentStep > 0}
+          />
+        );
+      case 3:
+        return (
+          <StrategyEditor
+            onPrevious={handlePrevious}
+            generatedStrategy={generatedStrategy}
+            canGoBack={currentStep > 0}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="border-b border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm">
+      <header className="border-b border-gray-200 bg-white shadow-sm">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
                 <Brain className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">IntelMarkForge</h1>
-                <p className="text-blue-600 text-sm">AI-Powered Marketing Strategy Platform</p>
+                <p className="text-indigo-600 text-sm">AI-Powered Marketing Strategy Platform</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -84,7 +123,7 @@ const Index = () => {
               <div key={index} className="flex items-center w-full lg:w-auto">
                 <div className={`
                   flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300
-                  ${isActive ? 'bg-purple-500 border-purple-500 text-white' : 
+                  ${isActive ? 'bg-indigo-500 border-indigo-500 text-white' : 
                     isCompleted ? 'bg-green-500 border-green-500 text-white' : 
                     'border-gray-300 text-gray-400 bg-white'}
                 `}>
@@ -108,14 +147,7 @@ const Index = () => {
 
         {/* Main Content */}
         <div className="max-w-6xl mx-auto">
-          <CurrentComponent
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            selectedBrand={selectedBrand}
-            businessContext={businessContext}
-            generatedStrategy={generatedStrategy}
-            canGoBack={currentStep > 0}
-          />
+          {renderCurrentStep()}
         </div>
       </div>
     </div>
