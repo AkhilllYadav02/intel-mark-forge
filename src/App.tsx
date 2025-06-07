@@ -7,6 +7,9 @@ import LandingPage from "./pages/LandingPage";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import Index from "./pages/Index";
+import SavedStrategies from "./pages/SavedStrategies";
+import Settings from "./pages/Settings";
+import Help from "./pages/Help";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +23,9 @@ const App = () => (
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/app" element={<Dashboard />} />
           <Route path="/app/create" element={<Index />} />
+          <Route path="/app/strategies" element={<SavedStrategies />} />
+          <Route path="/app/settings" element={<Settings />} />
+          <Route path="/app/help" element={<Help />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

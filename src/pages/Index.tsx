@@ -3,29 +3,37 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Lightbulb, Target, Download, Share, Edit } from "lucide-react";
+import { Brain, Lightbulb, Target, Download, Share, Edit, Settings, Users } from "lucide-react";
 import BrandSelector from "@/components/BrandSelector";
+import StrategyTypeSelector from "@/components/StrategyTypeSelector";
 import BusinessContextForm from "@/components/BusinessContextForm";
+import AIModelSelector from "@/components/AIModelSelector";
 import StrategyGenerator from "@/components/StrategyGenerator";
 import StrategyEditor from "@/components/StrategyEditor";
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState(null);
+  const [strategyType, setStrategyType] = useState(null);
   const [businessContext, setBusinessContext] = useState(null);
+  const [aiModel, setAiModel] = useState(null);
   const [generatedStrategy, setGeneratedStrategy] = useState(null);
 
   const steps = [
     { title: "Brand Inspiration", icon: Lightbulb, component: BrandSelector },
-    { title: "Business Context", icon: Target, component: BusinessContextForm },
-    { title: "AI Strategy Generation", icon: Brain, component: StrategyGenerator },
+    { title: "Strategy Type", icon: Target, component: StrategyTypeSelector },
+    { title: "Business Context", icon: Users, component: BusinessContextForm },
+    { title: "AI Model", icon: Settings, component: AIModelSelector },
+    { title: "AI Generation", icon: Brain, component: StrategyGenerator },
     { title: "Edit & Export", icon: Edit, component: StrategyEditor }
   ];
 
   const handleNext = (data: any) => {
     if (currentStep === 0) setSelectedBrand(data);
-    if (currentStep === 1) setBusinessContext(data);
-    if (currentStep === 2) setGeneratedStrategy(data);
+    if (currentStep === 1) setStrategyType(data);
+    if (currentStep === 2) setBusinessContext(data);
+    if (currentStep === 3) setAiModel(data);
+    if (currentStep === 4) setGeneratedStrategy(data);
     
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -49,7 +57,7 @@ const Index = () => {
         );
       case 1:
         return (
-          <BusinessContextForm
+          <StrategyTypeSelector
             onNext={handleNext}
             onPrevious={handlePrevious}
             selectedBrand={selectedBrand}
@@ -58,19 +66,46 @@ const Index = () => {
         );
       case 2:
         return (
-          <StrategyGenerator
+          <BusinessContextForm
             onNext={handleNext}
             onPrevious={handlePrevious}
             selectedBrand={selectedBrand}
-            businessContext={businessContext}
+            strategyType={strategyType}
             canGoBack={currentStep > 0}
           />
         );
       case 3:
         return (
+          <AIModelSelector
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            selectedBrand={selectedBrand}
+            strategyType={strategyType}
+            businessContext={businessContext}
+            canGoBack={currentStep > 0}
+          />
+        );
+      case 4:
+        return (
+          <StrategyGenerator
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            selectedBrand={selectedBrand}
+            strategyType={strategyType}
+            businessContext={businessContext}
+            aiModel={aiModel}
+            canGoBack={currentStep > 0}
+          />
+        );
+      case 5:
+        return (
           <StrategyEditor
             onPrevious={handlePrevious}
             generatedStrategy={generatedStrategy}
+            selectedBrand={selectedBrand}
+            strategyType={strategyType}
+            businessContext={businessContext}
+            aiModel={aiModel}
             canGoBack={currentStep > 0}
           />
         );
@@ -91,7 +126,7 @@ const Index = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">IntelMarkForge</h1>
-                <p className="text-indigo-600 text-sm">AI-Powered Marketing Strategy Platform</p>
+                <p className="text-blue-600 text-sm">AI-Powered Marketing Strategy Platform</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -123,7 +158,7 @@ const Index = () => {
               <div key={index} className="flex items-center w-full lg:w-auto">
                 <div className={`
                   flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300
-                  ${isActive ? 'bg-indigo-500 border-indigo-500 text-white' : 
+                  ${isActive ? 'bg-blue-500 border-blue-500 text-white' : 
                     isCompleted ? 'bg-green-500 border-green-500 text-white' : 
                     'border-gray-300 text-gray-400 bg-white'}
                 `}>

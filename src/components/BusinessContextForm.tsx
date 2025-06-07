@@ -12,17 +12,17 @@ interface BusinessContextFormProps {
   onNext: (data: any) => void;
   onPrevious: () => void;
   selectedBrand: any;
+  strategyType: any;
   canGoBack: boolean;
 }
 
-const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: BusinessContextFormProps) => {
+const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, strategyType, canGoBack }: BusinessContextFormProps) => {
   const [formData, setFormData] = useState({
     companyName: "",
     industry: "",
     targetAudience: "",
     budget: "",
     timeline: "",
-    strategicFocus: "",
     competitors: "",
     additionalNotes: ""
   });
@@ -35,7 +35,7 @@ const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: B
     onNext(formData);
   };
 
-  const isFormValid = formData.companyName && formData.industry && formData.targetAudience && formData.strategicFocus;
+  const isFormValid = formData.companyName && formData.industry && formData.targetAudience;
 
   return (
     <div className="space-y-6">
@@ -46,7 +46,7 @@ const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: B
             Business Context & Goals
           </CardTitle>
           <CardDescription className="text-gray-600 text-lg">
-            Tell us about your business to generate a strategy inspired by {selectedBrand?.name}'s approach.
+            Tell us about your business to generate a {strategyType?.title} strategy inspired by {selectedBrand?.name}'s approach.
           </CardDescription>
         </CardHeader>
       </Card>
@@ -108,23 +108,6 @@ const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: B
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="strategicFocus" className="text-gray-700">Strategic Focus *</Label>
-              <Select onValueChange={(value) => handleInputChange('strategicFocus', value)}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="What's your main goal?" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="customer-acquisition">Customer Acquisition</SelectItem>
-                  <SelectItem value="brand-awareness">Brand Awareness</SelectItem>
-                  <SelectItem value="product-launch">Product Launch</SelectItem>
-                  <SelectItem value="customer-retention">Customer Retention</SelectItem>
-                  <SelectItem value="market-expansion">Market Expansion</SelectItem>
-                  <SelectItem value="digital-transformation">Digital Transformation</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
               <Label htmlFor="budget" className="text-gray-700">Budget Range</Label>
               <Select onValueChange={(value) => handleInputChange('budget', value)}>
                 <SelectTrigger className="mt-1">
@@ -152,6 +135,17 @@ const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: B
                 </SelectContent>
               </Select>
             </div>
+
+            <div>
+              <Label htmlFor="competitors" className="text-gray-700">Key Competitors (Optional)</Label>
+              <Input
+                id="competitors"
+                value={formData.competitors}
+                onChange={(e) => handleInputChange('competitors', e.target.value)}
+                placeholder="List your main competitors"
+                className="mt-1"
+              />
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -159,23 +153,12 @@ const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: B
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardContent className="pt-6 space-y-4">
           <div>
-            <Label htmlFor="competitors" className="text-gray-700">Key Competitors (Optional)</Label>
-            <Input
-              id="competitors"
-              value={formData.competitors}
-              onChange={(e) => handleInputChange('competitors', e.target.value)}
-              placeholder="List your main competitors"
-              className="mt-1"
-            />
-          </div>
-
-          <div>
             <Label htmlFor="additionalNotes" className="text-gray-700">Additional Notes (Optional)</Label>
             <Textarea
               id="additionalNotes"
               value={formData.additionalNotes}
               onChange={(e) => handleInputChange('additionalNotes', e.target.value)}
-              placeholder="Any specific requirements or context"
+              placeholder="Any specific requirements or context for your strategy"
               className="mt-1"
               rows={3}
             />
@@ -191,7 +174,7 @@ const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: B
             className="border-gray-300 text-gray-700 hover:bg-gray-50"
           >
             <ChevronLeft className="w-5 h-5 mr-2" />
-            Back to Brand Selection
+            Back to Strategy Type
           </Button>
         )}
         
@@ -200,7 +183,7 @@ const BusinessContextForm = ({ onNext, onPrevious, selectedBrand, canGoBack }: B
           disabled={!isFormValid}
           className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg ml-auto"
         >
-          Generate Strategy
+          Continue to AI Selection
           <ChevronRight className="w-5 h-5 ml-2" />
         </Button>
       </div>
