@@ -41,29 +41,29 @@ const Index = () => {
   const CurrentComponent = steps[currentStep].component;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
-      <header className="border-b border-white/10 bg-black/20 backdrop-blur-sm">
+      <header className="border-b border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
                 <Brain className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">IntelMarkForge</h1>
-                <p className="text-blue-200 text-sm">AI-Powered Marketing Strategy Platform</p>
+                <h1 className="text-2xl font-bold text-gray-900">IntelMarkForge</h1>
+                <p className="text-blue-600 text-sm">AI-Powered Marketing Strategy Platform</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <Badge variant="secondary" className="bg-green-500/20 text-green-300 border-green-500/30">
+              <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
                 Multi-LLM Powered
               </Badge>
-              <Button variant="outline" size="sm" className="border-white/20 text-white hover:bg-white/10">
+              <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-50">
                 <Share className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              <Button variant="outline" size="sm" className="border-white/20 text-white hover:bg-white/10">
+              <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-50">
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
@@ -74,31 +74,31 @@ const Index = () => {
 
       {/* Progress Indicator */}
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between mb-8 space-y-4 lg:space-y-0">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isActive = index === currentStep;
             const isCompleted = index < currentStep;
             
             return (
-              <div key={index} className="flex items-center">
+              <div key={index} className="flex items-center w-full lg:w-auto">
                 <div className={`
                   flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300
                   ${isActive ? 'bg-purple-500 border-purple-500 text-white' : 
                     isCompleted ? 'bg-green-500 border-green-500 text-white' : 
-                    'border-white/30 text-white/60'}
+                    'border-gray-300 text-gray-400 bg-white'}
                 `}>
                   <Icon className="w-6 h-6" />
                 </div>
-                <div className="ml-3">
-                  <p className={`font-medium ${isActive ? 'text-white' : 'text-white/60'}`}>
+                <div className="ml-3 flex-1 lg:flex-none">
+                  <p className={`font-medium ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>
                     {step.title}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`
-                    w-24 h-0.5 mx-8 transition-all duration-300
-                    ${isCompleted ? 'bg-green-500' : 'bg-white/20'}
+                    hidden lg:block w-24 h-0.5 mx-8 transition-all duration-300
+                    ${isCompleted ? 'bg-green-500' : 'bg-gray-200'}
                   `} />
                 )}
               </div>
@@ -107,7 +107,7 @@ const Index = () => {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <CurrentComponent
             onNext={handleNext}
             onPrevious={handlePrevious}

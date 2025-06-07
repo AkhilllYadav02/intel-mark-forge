@@ -77,30 +77,29 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+      <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-2xl text-white flex items-center">
-            <Star className="w-6 h-6 mr-3 text-yellow-400" />
+          <CardTitle className="text-2xl text-gray-900 flex items-center">
+            <Star className="w-6 h-6 mr-3 text-yellow-500" />
             Choose Your Brand Inspiration
           </CardTitle>
-          <CardDescription className="text-blue-200 text-lg">
+          <CardDescription className="text-gray-600 text-lg">
             Select a successful brand whose strategy approach resonates with your vision. 
             Our AI will analyze their proven methodologies and adapt them to your business context.
           </CardDescription>
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {brands.map((brand) => (
           <Card
             key={brand.id}
             className={`
               cursor-pointer transition-all duration-300 border-2
               ${selectedBrand === brand.id 
-                ? 'bg-purple-500/20 border-purple-400 shadow-lg shadow-purple-500/25' 
-                : 'bg-white/5 border-white/20 hover:bg-white/10 hover:border-white/30'
+                ? 'bg-purple-50 border-purple-300 shadow-lg ring-2 ring-purple-200' 
+                : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-md'
               }
-              backdrop-blur-sm
             `}
             onClick={() => handleBrandSelect(brand)}
           >
@@ -109,8 +108,8 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
                 <div className="flex items-center space-x-3">
                   <div className="text-3xl">{brand.image}</div>
                   <div>
-                    <CardTitle className="text-white text-xl">{brand.name}</CardTitle>
-                    <Badge variant="secondary" className="mt-1 bg-blue-500/20 text-blue-300 border-blue-500/30">
+                    <CardTitle className="text-gray-900 text-xl">{brand.name}</CardTitle>
+                    <Badge variant="secondary" className="mt-1 bg-blue-100 text-blue-700 border-blue-200">
                       {brand.category}
                     </Badge>
                   </div>
@@ -123,13 +122,13 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-blue-100 mb-4">{brand.description}</p>
+              <p className="text-gray-600 mb-4">{brand.description}</p>
               <div className="flex flex-wrap gap-2">
                 {brand.strengths.map((strength, index) => (
                   <Badge
                     key={index}
                     variant="outline"
-                    className="border-green-500/50 text-green-300 bg-green-500/10"
+                    className="border-green-300 text-green-700 bg-green-50"
                   >
                     <TrendingUp className="w-3 h-3 mr-1" />
                     {strength}
@@ -145,7 +144,7 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
         <Button
           onClick={handleContinue}
           disabled={!selectedBrand}
-          className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-3 text-lg"
+          className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 text-lg"
         >
           Continue to Business Context
           <ChevronRight className="w-5 h-5 ml-2" />

@@ -29,7 +29,6 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
   };
 
   const handleExportPDF = () => {
-    // Simulate PDF generation
     toast({
       title: "PDF Export",
       description: "Your strategy is being prepared for download as PDF.",
@@ -60,7 +59,6 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
   };
 
   const handleShareLink = () => {
-    // Simulate sharing functionality
     toast({
       title: "Share Link Generated",
       description: "A shareable link has been created for collaboration.",
@@ -76,32 +74,32 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+      <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-2xl text-white flex items-center">
-            <Edit className="w-6 h-6 mr-3 text-green-400" />
+          <CardTitle className="text-2xl text-gray-900 flex items-center">
+            <Edit className="w-6 h-6 mr-3 text-green-600" />
             Strategy Editor & Export
           </CardTitle>
-          <CardDescription className="text-blue-200 text-lg">
+          <CardDescription className="text-gray-600 text-lg">
             Customize your AI-generated strategy and export it in your preferred format.
           </CardDescription>
         </CardHeader>
       </Card>
 
       {/* Strategy Metadata */}
-      <Card className="bg-white/5 backdrop-blur-sm border-white/20">
+      <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
         <CardContent className="p-6">
           <div className="flex flex-wrap gap-3">
-            <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+            <Badge className="bg-purple-100 text-purple-700 border-purple-200">
               Brand: {generatedStrategy?.metadata?.brand?.name}
             </Badge>
-            <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+            <Badge className="bg-blue-100 text-blue-700 border-blue-200">
               Company: {generatedStrategy?.metadata?.context?.companyName}
             </Badge>
-            <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
+            <Badge className="bg-green-100 text-green-700 border-green-200">
               Focus: {generatedStrategy?.metadata?.context?.strategicFocus}
             </Badge>
-            <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30">
+            <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200">
               Industry: {generatedStrategy?.metadata?.context?.industry}
             </Badge>
           </div>
@@ -113,7 +111,7 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
         <Button
           onClick={() => setIsEditing(!isEditing)}
           variant="outline"
-          className="border-white/20 text-white hover:bg-white/10"
+          className="border-gray-300 text-gray-700 hover:bg-gray-50"
         >
           <Edit className="w-4 h-4 mr-2" />
           {isEditing ? "Preview" : "Edit"}
@@ -122,7 +120,7 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
         <Button
           onClick={generateVariant}
           variant="outline"
-          className="border-white/20 text-white hover:bg-white/10"
+          className="border-gray-300 text-gray-700 hover:bg-gray-50"
         >
           <RefreshCw className="w-4 h-4 mr-2" />
           Generate Variant
@@ -131,7 +129,7 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
         <Button
           onClick={handleCopyToClipboard}
           variant="outline"
-          className="border-white/20 text-white hover:bg-white/10"
+          className="border-gray-300 text-gray-700 hover:bg-gray-50"
         >
           <Copy className="w-4 h-4 mr-2" />
           Copy
@@ -140,7 +138,7 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
         <Button
           onClick={handleShareLink}
           variant="outline"
-          className="border-white/20 text-white hover:bg-white/10"
+          className="border-gray-300 text-gray-700 hover:bg-gray-50"
         >
           <Share className="w-4 h-4 mr-2" />
           Share
@@ -164,9 +162,9 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
       </div>
 
       {/* Strategy Content */}
-      <Card className="bg-white/5 backdrop-blur-sm border-white/20">
+      <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-white flex items-center justify-between">
+          <CardTitle className="text-gray-900 flex items-center justify-between">
             <span>Your Marketing Strategy</span>
             {isEditing && (
               <Button
@@ -184,12 +182,12 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
             <Textarea
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="min-h-[600px] bg-black/20 border-white/20 text-white font-mono text-sm leading-relaxed"
+              className="min-h-[600px] bg-gray-50 border-gray-200 text-gray-900 font-mono text-sm leading-relaxed"
               placeholder="Edit your strategy here..."
             />
           ) : (
-            <div className="bg-black/20 rounded-lg p-6 max-h-[600px] overflow-y-auto">
-              <pre className="text-white/90 text-sm whitespace-pre-wrap font-mono leading-relaxed">
+            <div className="bg-gray-50 rounded-lg p-6 max-h-[600px] overflow-y-auto border border-gray-200">
+              <pre className="text-gray-800 text-sm whitespace-pre-wrap font-mono leading-relaxed">
                 {editedContent}
               </pre>
             </div>
@@ -199,15 +197,15 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
 
       {/* Additional Features */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="bg-white/5 backdrop-blur-sm border-white/20">
+        <Card className="bg-white border-gray-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-white text-lg">Export Options</CardTitle>
+            <CardTitle className="text-gray-900 text-lg">Export Options</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <Button 
               onClick={handleExportText}
               variant="outline" 
-              className="w-full border-white/20 text-white hover:bg-white/10"
+              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50"
             >
               <FileText className="w-4 h-4 mr-2" />
               Plain Text (.txt)
@@ -215,14 +213,14 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
             <Button 
               onClick={handleExportPDF}
               variant="outline" 
-              className="w-full border-white/20 text-white hover:bg-white/10"
+              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50"
             >
               <Download className="w-4 h-4 mr-2" />
               PDF Document
             </Button>
             <Button 
               variant="outline" 
-              className="w-full border-white/20 text-white hover:bg-white/10"
+              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50"
               onClick={() => toast({ title: "Coming Soon", description: "Markdown export will be available soon." })}
             >
               <FileText className="w-4 h-4 mr-2" />
@@ -231,22 +229,22 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 backdrop-blur-sm border-white/20">
+        <Card className="bg-white border-gray-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-white text-lg">Strategy Tools</CardTitle>
+            <CardTitle className="text-gray-900 text-lg">Strategy Tools</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <Button 
               onClick={generateVariant}
               variant="outline" 
-              className="w-full border-white/20 text-white hover:bg-white/10"
+              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50"
             >
               <Sparkles className="w-4 h-4 mr-2" />
               Generate Alternative
             </Button>
             <Button 
               variant="outline" 
-              className="w-full border-white/20 text-white hover:bg-white/10"
+              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50"
               onClick={() => toast({ title: "Coming Soon", description: "Executive summary generation coming soon." })}
             >
               <FileText className="w-4 h-4 mr-2" />
@@ -254,7 +252,7 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
             </Button>
             <Button 
               variant="outline" 
-              className="w-full border-white/20 text-white hover:bg-white/10"
+              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50"
               onClick={() => toast({ title: "Coming Soon", description: "Action plan generation coming soon." })}
             >
               <Edit className="w-4 h-4 mr-2" />
@@ -264,11 +262,11 @@ const StrategyEditor = ({ onPrevious, generatedStrategy }: StrategyEditorProps) 
         </Card>
       </div>
 
-      <div className="flex justify-between pt-6">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 pt-6">
         <Button
           onClick={onPrevious}
           variant="outline"
-          className="border-white/20 text-white hover:bg-white/10"
+          className="border-gray-300 text-gray-700 hover:bg-gray-50"
         >
           <ChevronLeft className="w-5 h-5 mr-2" />
           Back to Generation

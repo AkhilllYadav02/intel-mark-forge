@@ -4,272 +4,256 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ChevronRight, ChevronLeft, Brain, Zap, Sparkles, CheckCircle } from "lucide-react";
+import { ChevronLeft, Brain, Sparkles, CheckCircle } from "lucide-react";
 
 interface StrategyGeneratorProps {
-  onNext: (strategy: any) => void;
+  onNext: (data: any) => void;
   onPrevious: () => void;
   selectedBrand: any;
   businessContext: any;
   canGoBack: boolean;
 }
 
-const StrategyGenerator = ({ onNext, onPrevious, selectedBrand, businessContext }: StrategyGeneratorProps) => {
-  const [isGenerating, setIsGenerating] = useState(false);
+const StrategyGenerator = ({ onNext, onPrevious, selectedBrand, businessContext, canGoBack }: StrategyGeneratorProps) => {
   const [progress, setProgress] = useState(0);
-  const [currentStep, setCurrentStep] = useState("");
-  const [generatedStrategy, setGeneratedStrategy] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
-  const generationSteps = [
-    "Analyzing brand methodology...",
-    "Processing business context...",
-    "Consulting multi-LLM engines...",
-    "Synthesizing strategic recommendations...",
-    "Formatting final strategy report..."
+  const steps = [
+    "Analyzing brand strategy patterns",
+    "Processing business context",
+    "Generating marketing framework",
+    "Creating actionable recommendations",
+    "Finalizing strategy document"
   ];
 
-  const generateStrategy = async () => {
+  useEffect(() => {
+    if (isGenerating) {
+      const interval = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 100) {
+            setIsComplete(true);
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + 2;
+        });
+        
+        setCurrentStep(prev => {
+          const newStep = Math.floor((progress / 100) * steps.length);
+          return Math.min(newStep, steps.length - 1);
+        });
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [isGenerating, progress, steps.length]);
+
+  const startGeneration = () => {
     setIsGenerating(true);
     setProgress(0);
-
-    for (let i = 0; i < generationSteps.length; i++) {
-      setCurrentStep(generationSteps[i]);
-      setProgress((i / generationSteps.length) * 100);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    }
-
-    // Simulate AI-generated strategy based on inputs
-    const strategy = `# ${businessContext.companyName} Marketing Strategy
-## Inspired by ${selectedBrand.name}'s Approach
-
-### Executive Summary
-Drawing from ${selectedBrand.name}'s proven methodologies, this comprehensive strategy is designed to achieve ${businessContext.strategicFocus.toLowerCase()} for ${businessContext.companyName} in the ${businessContext.industry.toLowerCase()} industry.
-
-### Strategic Framework
-
-#### 1. Brand Positioning
-Following ${selectedBrand.name}'s approach to ${selectedBrand.strengths[0].toLowerCase()}, we recommend positioning ${businessContext.companyName} as:
-- **Primary Value Proposition**: Industry-leading solutions that prioritize customer success
-- **Brand Personality**: Innovative, trustworthy, and customer-centric
-- **Differentiation**: Focus on ${businessContext.goals || 'exceptional customer experience'}
-
-#### 2. Target Audience Strategy
-**Primary Audience**: ${businessContext.targetAudience || 'Business decision makers'}
-- Segment characteristics aligned with ${selectedBrand.name}'s customer-first approach
-- Communication style: Professional yet approachable
-- Key pain points: ${businessContext.currentChallenges || 'Need for reliable, innovative solutions'}
-
-#### 3. Channel Strategy
-Leveraging ${selectedBrand.name}'s multi-channel approach:
-- **Digital Channels**: Website optimization, SEO, social media presence
-- **Content Marketing**: Educational content that builds authority
-- **Partnership Marketing**: Strategic alliances within ${businessContext.industry}
-- **Direct Engagement**: Personalized outreach and relationship building
-
-#### 4. Campaign Concepts
-
-**Campaign 1: "Innovation Meets Excellence"**
-- Objective: Build brand awareness and credibility
-- Timeline: ${businessContext.timeline || '3-6 months'}
-- Budget allocation: ${businessContext.budget || 'TBD'}
-- Key messages: Innovation, quality, customer success
-
-**Campaign 2: "Success Stories"**
-- Objective: Social proof and trust building
-- Format: Customer testimonials and case studies
-- Distribution: Multi-channel approach
-
-#### 5. Content Strategy
-- **Educational Content**: Industry insights and best practices
-- **Thought Leadership**: Position key stakeholders as industry experts
-- **Customer Stories**: Real-world success examples
-- **Interactive Content**: Webinars, demos, and consultations
-
-#### 6. Measurement & KPIs
-- Brand awareness metrics
-- Lead generation and conversion rates
-- Customer acquisition cost (CAC)
-- Customer lifetime value (CLV)
-- Social engagement rates
-- Website traffic and conversion optimization
-
-#### 7. Implementation Timeline
-**Phase 1 (Months 1-2)**: Foundation and setup
-- Brand messaging finalization
-- Content creation and asset development
-- Channel optimization
-
-**Phase 2 (Months 3-4)**: Launch and amplification
-- Campaign activation across all channels
-- Performance monitoring and optimization
-- Customer feedback collection
-
-**Phase 3 (Months 5-6)**: Scale and optimize
-- Performance analysis and strategy refinement
-- Expansion into new channels or markets
-- Long-term planning and strategy evolution
-
-#### 8. Success Factors
-Drawing from ${selectedBrand.name}'s playbook:
-- Consistency across all touchpoints
-- Customer-centric approach in all communications
-- Data-driven decision making
-- Continuous testing and optimization
-- Strong focus on ${selectedBrand.strengths.join(', ').toLowerCase()}
-
-#### 9. Risk Mitigation
-- Regular performance monitoring
-- Flexible budget allocation for high-performing channels
-- Contingency plans for market changes
-- Competitive response strategies
-
-#### 10. Next Steps
-1. Review and approve strategic framework
-2. Develop detailed tactical plans for each channel
-3. Create content calendar and production schedule
-4. Set up measurement and reporting infrastructure
-5. Begin implementation with quick wins
-
-### Conclusion
-This strategy combines ${selectedBrand.name}'s proven methodologies with ${businessContext.companyName}'s unique value proposition to create a comprehensive approach to ${businessContext.strategicFocus.toLowerCase()}. The plan is designed to be both ambitious and achievable, with clear metrics for success and built-in flexibility for optimization.
-
----
-*Generated by IntelMarkForge AI Platform*
-*Report Date: ${new Date().toLocaleDateString()}*`;
-
-    setProgress(100);
-    setCurrentStep("Strategy generation complete!");
-    setGeneratedStrategy(strategy);
-    setIsGenerating(false);
+    setCurrentStep(0);
   };
 
-  const handleContinue = () => {
-    if (generatedStrategy) {
-      onNext({ content: generatedStrategy, metadata: { brand: selectedBrand, context: businessContext } });
-    }
+  const handleComplete = () => {
+    const mockStrategy = {
+      content: `# Marketing Strategy for ${businessContext.companyName}
+Inspired by ${selectedBrand.name}'s Approach
+
+## Executive Summary
+Based on ${selectedBrand.name}'s proven methodology of ${selectedBrand.description}, we've developed a comprehensive marketing strategy tailored for ${businessContext.companyName} in the ${businessContext.industry} industry.
+
+## Strategic Framework
+
+### 1. Brand Positioning
+- Position ${businessContext.companyName} as a ${businessContext.strategicFocus} leader
+- Target audience: ${businessContext.targetAudience}
+- Unique value proposition aligned with market needs
+
+### 2. Marketing Channels
+- Digital marketing campaigns
+- Content marketing strategy
+- Social media presence
+- Influencer partnerships
+- Email marketing automation
+
+### 3. Customer Acquisition Strategy
+- Multi-channel approach for reaching ${businessContext.targetAudience}
+- Conversion optimization tactics
+- Customer onboarding process
+- Retention programs
+
+### 4. Implementation Timeline (${businessContext.timeline || '3 months'})
+- Phase 1: Foundation and Setup (Month 1)
+- Phase 2: Campaign Launch (Month 2)
+- Phase 3: Optimization and Scale (Month 3)
+
+### 5. Budget Allocation (${businessContext.budget || 'Medium'} budget)
+- 40% Digital advertising
+- 25% Content creation
+- 20% Technology and tools
+- 15% Analytics and optimization
+
+### 6. Key Performance Indicators
+- Customer acquisition cost
+- Conversion rates
+- Brand awareness metrics
+- Customer lifetime value
+- Return on marketing investment
+
+### 7. Competitive Advantage
+Drawing from ${selectedBrand.name}'s strength in ${selectedBrand.strengths?.join(', ')}, your strategy focuses on:
+- Innovation and differentiation
+- Customer-centric approach
+- Data-driven decision making
+
+## Next Steps
+1. Implement foundation elements
+2. Launch pilot campaigns
+3. Monitor and optimize performance
+4. Scale successful initiatives
+
+This strategy combines proven methodologies with your unique business context to create a roadmap for sustainable growth.`,
+      
+      metadata: {
+        brand: selectedBrand,
+        context: businessContext,
+        generatedAt: new Date().toISOString(),
+        aiModel: "Multi-LLM Synthesis"
+      }
+    };
+
+    onNext(mockStrategy);
   };
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+      <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-2xl text-white flex items-center">
-            <Brain className="w-6 h-6 mr-3 text-purple-400" />
+          <CardTitle className="text-2xl text-gray-900 flex items-center">
+            <Brain className="w-6 h-6 mr-3 text-purple-600" />
             AI Strategy Generation
           </CardTitle>
-          <CardDescription className="text-blue-200 text-lg">
-            Our multi-LLM engine is analyzing {selectedBrand?.name}'s methodology and creating a customized strategy for {businessContext?.companyName}
+          <CardDescription className="text-gray-600 text-lg">
+            Our AI is analyzing {selectedBrand.name}'s methodology and applying it to {businessContext.companyName}'s context.
           </CardDescription>
         </CardHeader>
       </Card>
 
-      {!isGenerating && !generatedStrategy && (
-        <Card className="bg-white/5 backdrop-blur-sm border-white/20">
-          <CardContent className="p-8">
-            <div className="text-center space-y-6">
-              <div className="flex justify-center space-x-4">
-                <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 px-4 py-2">
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Brand: {selectedBrand?.name}
-                </Badge>
-                <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-4 py-2">
-                  <Zap className="w-4 h-4 mr-2" />
-                  Focus: {businessContext?.strategicFocus}
-                </Badge>
-                <Badge className="bg-green-500/20 text-green-300 border-green-500/30 px-4 py-2">
-                  <Brain className="w-4 h-4 mr-2" />
-                  Industry: {businessContext?.industry}
-                </Badge>
-              </div>
-              
-              <h3 className="text-xl text-white">Ready to Generate Your Custom Strategy?</h3>
-              <p className="text-blue-200">
-                Our AI will analyze {selectedBrand?.name}'s proven methodologies and adapt them specifically for {businessContext?.companyName}'s goals in the {businessContext?.industry} industry.
-              </p>
-              
-              <Button
-                onClick={generateStrategy}
-                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-4 text-lg"
-              >
-                <Brain className="w-5 h-5 mr-2" />
-                Generate AI Strategy
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {isGenerating && (
-        <Card className="bg-white/5 backdrop-blur-sm border-white/20">
-          <CardContent className="p-8">
-            <div className="space-y-6">
-              <div className="text-center">
-                <div className="animate-spin w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full mx-auto mb-4" />
-                <h3 className="text-xl text-white mb-2">Generating Your Strategy...</h3>
-                <p className="text-blue-200">{currentStep}</p>
-              </div>
-              
-              <Progress value={progress} className="w-full h-3" />
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-                {["GPT-4", "Claude", "Gemini"].map((llm, index) => (
-                  <div key={llm} className="flex items-center space-x-2 text-white/70">
-                    <div className={`w-3 h-3 rounded-full ${progress > (index + 1) * 20 ? 'bg-green-500' : 'bg-white/30'} ${progress === (index + 1) * 20 ? 'animate-pulse bg-purple-500' : ''}`} />
-                    <span>{llm} Analysis</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {generatedStrategy && !isGenerating && (
-        <Card className="bg-white/5 backdrop-blur-sm border-white/20">
+      {/* Strategy Preview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
           <CardHeader>
-            <CardTitle className="text-white flex items-center">
-              <CheckCircle className="w-5 h-5 mr-2 text-green-400" />
-              Strategy Generated Successfully!
-            </CardTitle>
-            <CardDescription className="text-blue-200">
-              Your comprehensive marketing strategy is ready. Preview it below or proceed to edit and customize.
-            </CardDescription>
+            <CardTitle className="text-lg text-gray-900">Brand Inspiration</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="bg-black/20 rounded-lg p-6 max-h-96 overflow-y-auto">
-              <pre className="text-white/90 text-sm whitespace-pre-wrap font-mono leading-relaxed">
-                {generatedStrategy.substring(0, 800)}...
-              </pre>
+            <div className="flex items-center space-x-3 mb-3">
+              <div className="text-2xl">{selectedBrand.image}</div>
+              <div>
+                <h3 className="font-semibold text-gray-900">{selectedBrand.name}</h3>
+                <p className="text-sm text-gray-600">{selectedBrand.category}</p>
+              </div>
             </div>
-            <div className="mt-4 text-center">
-              <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
-                Complete strategy: {generatedStrategy.length} characters generated
-              </Badge>
+            <p className="text-sm text-gray-700 mb-3">{selectedBrand.description}</p>
+            <div className="flex flex-wrap gap-1">
+              {selectedBrand.strengths?.map((strength: string, index: number) => (
+                <Badge key={index} variant="secondary" className="text-xs">
+                  {strength}
+                </Badge>
+              ))}
             </div>
           </CardContent>
         </Card>
-      )}
 
-      <div className="flex justify-between pt-6">
-        <Button
-          onClick={onPrevious}
-          variant="outline"
-          className="border-white/20 text-white hover:bg-white/10"
-        >
-          <ChevronLeft className="w-5 h-5 mr-2" />
-          Back to Context
-        </Button>
-        
-        {generatedStrategy && (
-          <Button
-            onClick={handleContinue}
-            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-3"
-          >
-            Edit & Export Strategy
-            <ChevronRight className="w-5 h-5 ml-2" />
-          </Button>
-        )}
+        <Card className="bg-gradient-to-br from-green-50 to-blue-50 border-green-200">
+          <CardHeader>
+            <CardTitle className="text-lg text-gray-900">Your Business</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2 text-sm">
+              <div><strong>Company:</strong> {businessContext.companyName}</div>
+              <div><strong>Industry:</strong> {businessContext.industry}</div>
+              <div><strong>Focus:</strong> {businessContext.strategicFocus}</div>
+              <div><strong>Audience:</strong> {businessContext.targetAudience}</div>
+              {businessContext.budget && <div><strong>Budget:</strong> {businessContext.budget}</div>}
+              {businessContext.timeline && <div><strong>Timeline:</strong> {businessContext.timeline}</div>}
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Generation Process */}
+      <Card className="bg-white border-gray-200 shadow-sm">
+        <CardContent className="pt-6">
+          {!isGenerating && !isComplete && (
+            <div className="text-center py-8">
+              <Sparkles className="w-16 h-16 text-purple-500 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to Generate Your Strategy</h3>
+              <p className="text-gray-600 mb-6">
+                Our AI will create a comprehensive marketing strategy combining {selectedBrand.name}'s proven methods with your specific business needs.
+              </p>
+              <Button
+                onClick={startGeneration}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 text-lg"
+              >
+                <Brain className="w-5 h-5 mr-2" />
+                Start AI Generation
+              </Button>
+            </div>
+          )}
+
+          {isGenerating && !isComplete && (
+            <div className="py-8">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Brain className="w-8 h-8 text-purple-600 animate-pulse" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Generating Your Strategy</h3>
+                <p className="text-gray-600">{steps[currentStep]}</p>
+              </div>
+              
+              <div className="space-y-4">
+                <Progress value={progress} className="w-full h-3" />
+                <div className="flex justify-between text-sm text-gray-500">
+                  <span>Progress: {Math.round(progress)}%</span>
+                  <span>Step {currentStep + 1} of {steps.length}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {isComplete && (
+            <div className="text-center py-8">
+              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Strategy Generated Successfully!</h3>
+              <p className="text-gray-600 mb-6">
+                Your comprehensive marketing strategy is ready for review and editing.
+              </p>
+              <Button
+                onClick={handleComplete}
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg"
+              >
+                View & Edit Strategy
+                <ChevronLeft className="w-5 h-5 ml-2 rotate-180" />
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {canGoBack && (
+        <div className="flex justify-start pt-6">
+          <Button
+            onClick={onPrevious}
+            variant="outline"
+            className="border-gray-300 text-gray-700 hover:bg-gray-50"
+          >
+            <ChevronLeft className="w-5 h-5 mr-2" />
+            Back to Business Context
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
