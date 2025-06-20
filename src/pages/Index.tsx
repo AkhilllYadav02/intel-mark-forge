@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,6 @@ import AIModelSelector from "@/components/AIModelSelector";
 import StrategyGenerator from "@/components/StrategyGenerator";
 import StrategyEditor from "@/components/StrategyEditor";
 import ResponsiveNavbar from "@/components/ResponsiveNavbar";
-import ResponsiveFooter from "@/components/ResponsiveFooter";
 import ExplainWhyModal from "@/components/ExplainWhyModal";
 import ActionTranslator from "@/components/ActionTranslator";
 import StrategyFeedback from "@/components/StrategyFeedback";
@@ -238,8 +238,6 @@ const Index = () => {
           </div>
         )}
       </div>
-
-      <ResponsiveFooter />
     </div>
   );
 };

@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ResponsiveNavbar from "@/components/ResponsiveNavbar";
-import ResponsiveFooter from "@/components/ResponsiveFooter";
 
 const LandingPage = () => {
   const aiEngines = [
@@ -254,8 +253,6 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-
-      <ResponsiveFooter />
     </div>
   );
 };

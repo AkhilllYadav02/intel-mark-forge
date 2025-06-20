@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,11 +12,11 @@ import {
   Menu,
   Star,
   Calendar,
-  TrendingUp
+  TrendingUp,
+  User
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ResponsiveNavbar from "@/components/ResponsiveNavbar";
-import ResponsiveFooter from "@/components/ResponsiveFooter";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -100,9 +101,14 @@ const Dashboard = () => {
           <header className="bg-white border-b border-gray-200 p-4 lg:hidden">
             <div className="flex items-center justify-between">
               <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
-              <Badge variant="secondary" className="bg-green-100 text-green-700">
-                Pro Plan
-              </Badge>
+              <div className="flex items-center space-x-3">
+                <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200 text-xs px-2 py-1">
+                  Pro Plan
+                </Badge>
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <User className="w-4 h-4 text-blue-600" />
+                </div>
+              </div>
             </div>
           </header>
 
@@ -121,10 +127,12 @@ const Dashboard = () => {
               </div>
               
               <div className="flex items-center space-x-4">
-                <Badge variant="secondary" className="bg-green-100 text-green-700">
+                <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
                   Pro Plan
                 </Badge>
-                <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <User className="w-5 h-5 text-blue-600" />
+                </div>
               </div>
             </div>
           </header>
@@ -250,8 +258,6 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
-
-      <ResponsiveFooter />
     </div>
   );
 };
