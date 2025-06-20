@@ -131,7 +131,7 @@ const Index = () => {
             </div>
             <div className="flex items-center space-x-2">
               <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
-                Multi-LLM Powered
+                Gemini AI Powered
               </Badge>
               <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-50">
                 <Share className="w-4 h-4 mr-2" />

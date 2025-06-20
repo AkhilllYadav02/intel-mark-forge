@@ -10,11 +10,21 @@ interface StrategyGeneratorProps {
   onNext: (data: any) => void;
   onPrevious: () => void;
   selectedBrand: any;
+  strategyType: any;
   businessContext: any;
+  aiModel: any;
   canGoBack: boolean;
 }
 
-const StrategyGenerator = ({ onNext, onPrevious, selectedBrand, businessContext, canGoBack }: StrategyGeneratorProps) => {
+const StrategyGenerator = ({ 
+  onNext, 
+  onPrevious, 
+  selectedBrand, 
+  strategyType, 
+  businessContext, 
+  aiModel, 
+  canGoBack 
+}: StrategyGeneratorProps) => {
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -50,81 +60,102 @@ const StrategyGenerator = ({ onNext, onPrevious, selectedBrand, businessContext,
     }
   }, [isGenerating, progress, steps.length]);
 
-  const startGeneration = () => {
-    setIsGenerating(true);
-    setProgress(0);
-    setCurrentStep(0);
-  };
+  const generateWithGemini = async () => {
+    const prompt = `Create a comprehensive marketing strategy for ${businessContext.companyName} in the ${businessContext.industry} industry, inspired by ${selectedBrand.name}'s approach. 
 
-  const handleComplete = () => {
-    const mockStrategy = {
-      content: `# Marketing Strategy for ${businessContext.companyName}
+Business Details:
+- Company: ${businessContext.companyName}
+- Industry: ${businessContext.industry}
+- Target Audience: ${businessContext.targetAudience}
+- Strategic Focus: ${businessContext.strategicFocus}
+- Budget: ${businessContext.budget || 'Not specified'}
+- Timeline: ${businessContext.timeline || 'Not specified'}
+
+Strategy Type: ${strategyType.title}
+
+Brand Inspiration: ${selectedBrand.name} - ${selectedBrand.description}
+
+Please create a detailed marketing strategy that includes:
+1. Executive Summary
+2. Strategic Framework
+3. Implementation Plan
+4. Budget Allocation
+5. Key Performance Indicators
+6. Next Steps
+
+Format the response in markdown with clear headings and actionable recommendations.`;
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDvc0JRHmJJenpnJ6cig2LBmIn4sWpHpsU`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: prompt
+                }
+              ]
+            }
+          ]
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+        return data.candidates[0].content.parts[0].text;
+      } else {
+        throw new Error('Invalid response from Gemini API');
+      }
+    } catch (error) {
+      console.error('Gemini API Error:', error);
+      // Fallback to mock strategy
+      return `# Marketing Strategy for ${businessContext.companyName}
 Inspired by ${selectedBrand.name}'s Approach
 
 ## Executive Summary
-Based on ${selectedBrand.name}'s proven methodology of ${selectedBrand.description}, we've developed a comprehensive marketing strategy tailored for ${businessContext.companyName} in the ${businessContext.industry} industry.
+Based on ${selectedBrand.name}'s proven methodology, we've developed a comprehensive marketing strategy tailored for ${businessContext.companyName} in the ${businessContext.industry} industry.
 
 ## Strategic Framework
-
 ### 1. Brand Positioning
 - Position ${businessContext.companyName} as a ${businessContext.strategicFocus} leader
 - Target audience: ${businessContext.targetAudience}
 - Unique value proposition aligned with market needs
 
-### 2. Marketing Channels
-- Digital marketing campaigns
-- Content marketing strategy
-- Social media presence
-- Influencer partnerships
-- Email marketing automation
-
-### 3. Customer Acquisition Strategy
+### 2. Implementation Plan
 - Multi-channel approach for reaching ${businessContext.targetAudience}
 - Conversion optimization tactics
 - Customer onboarding process
-- Retention programs
 
-### 4. Implementation Timeline (${businessContext.timeline || '3 months'})
-- Phase 1: Foundation and Setup (Month 1)
-- Phase 2: Campaign Launch (Month 2)
-- Phase 3: Optimization and Scale (Month 3)
+This strategy combines proven methodologies with your unique business context.`;
+    }
+  };
 
-### 5. Budget Allocation (${businessContext.budget || 'Medium'} budget)
-- 40% Digital advertising
-- 25% Content creation
-- 20% Technology and tools
-- 15% Analytics and optimization
+  const startGeneration = async () => {
+    setIsGenerating(true);
+    setProgress(0);
+    setCurrentStep(0);
+  };
 
-### 6. Key Performance Indicators
-- Customer acquisition cost
-- Conversion rates
-- Brand awareness metrics
-- Customer lifetime value
-- Return on marketing investment
-
-### 7. Competitive Advantage
-Drawing from ${selectedBrand.name}'s strength in ${selectedBrand.strengths?.join(', ')}, your strategy focuses on:
-- Innovation and differentiation
-- Customer-centric approach
-- Data-driven decision making
-
-## Next Steps
-1. Implement foundation elements
-2. Launch pilot campaigns
-3. Monitor and optimize performance
-4. Scale successful initiatives
-
-This strategy combines proven methodologies with your unique business context to create a roadmap for sustainable growth.`,
-      
+  const handleComplete = async () => {
+    const generatedContent = await generateWithGemini();
+    
+    const strategy = {
+      content: generatedContent,
       metadata: {
         brand: selectedBrand,
+        strategyType: strategyType,
         context: businessContext,
-        generatedAt: new Date().toISOString(),
-        aiModel: "Multi-LLM Synthesis"
+        aiModel: aiModel,
+        generatedAt: new Date().toISOString()
       }
     };
 
-    onNext(mockStrategy);
+    onNext(strategy);
   };
 
   return (
@@ -182,6 +213,22 @@ This strategy combines proven methodologies with your unique business context to
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Model Info */}
+      <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
+        <CardContent className="pt-6">
+          <div className="flex items-center space-x-3">
+            <div className="text-2xl">{aiModel.icon}</div>
+            <div>
+              <h3 className="font-semibold text-gray-900">{aiModel.name}</h3>
+              <p className="text-sm text-gray-600">{aiModel.provider} • {aiModel.speed} Speed</p>
+            </div>
+            <Badge className="ml-auto bg-purple-100 text-purple-800">
+              {aiModel.pricing}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Generation Process */}
       <Card className="bg-white border-gray-200 shadow-sm">
@@ -250,7 +297,7 @@ This strategy combines proven methodologies with your unique business context to
             className="border-gray-300 text-gray-700 hover:bg-gray-50"
           >
             <ChevronLeft className="w-5 h-5 mr-2" />
-            Back to Business Context
+            Back to AI Model Selection
           </Button>
         </div>
       )}

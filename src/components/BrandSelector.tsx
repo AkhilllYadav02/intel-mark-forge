@@ -3,7 +3,10 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, Star, TrendingUp } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ChevronRight, Star, TrendingUp, Plus, Search } from "lucide-react";
 
 const brands = [
   {
@@ -53,6 +56,22 @@ const brands = [
     category: "Food & Beverage",
     strengths: ["Experience design", "Seasonal marketing", "Loyalty programs"],
     image: "☕"
+  },
+  {
+    id: "zomato",
+    name: "Zomato",
+    description: "Local market penetration, food discovery, customer reviews",
+    category: "Food Tech",
+    strengths: ["Local marketing", "User engagement", "Review system"],
+    image: "🍽️"
+  },
+  {
+    id: "mamaearth",
+    name: "Mamaearth",
+    description: "Natural products, mother-child focus, digital-first approach",
+    category: "Personal Care",
+    strengths: ["Natural positioning", "Digital marketing", "Niche targeting"],
+    image: "🌱"
   }
 ];
 
@@ -63,15 +82,53 @@ interface BrandSelectorProps {
 
 const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [customBrands, setCustomBrands] = useState<any[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
+  // Custom brand form state
+  const [customName, setCustomName] = useState("");
+  const [customDescription, setCustomDescription] = useState("");
+  const [customCategory, setCustomCategory] = useState("");
+  const [customStrengths, setCustomStrengths] = useState("");
+
+  const allBrands = [...brands, ...customBrands];
+  const filteredBrands = allBrands.filter(brand =>
+    brand.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    brand.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleBrandSelect = (brand: any) => {
     setSelectedBrand(brand.id);
   };
 
   const handleContinue = () => {
-    const brand = brands.find(b => b.id === selectedBrand);
+    const brand = allBrands.find(b => b.id === selectedBrand);
     if (brand) {
       onNext(brand);
+    }
+  };
+
+  const handleCustomBrandSubmit = () => {
+    if (customName && customDescription && customCategory) {
+      const newBrand = {
+        id: `custom-${Date.now()}`,
+        name: customName,
+        description: customDescription,
+        category: customCategory,
+        strengths: customStrengths.split(',').map(s => s.trim()).filter(s => s),
+        image: "🔥"
+      };
+      
+      setCustomBrands(prev => [...prev, newBrand]);
+      setSelectedBrand(newBrand.id);
+      
+      // Reset form
+      setCustomName("");
+      setCustomDescription("");
+      setCustomCategory("");
+      setCustomStrengths("");
+      setIsDialogOpen(false);
     }
   };
 
@@ -90,8 +147,95 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
         </CardHeader>
       </Card>
 
+      {/* Search and Custom Brand */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex-1 relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Input
+            placeholder="Search brands by name or category..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 border-gray-300 focus:border-blue-500"
+          />
+        </div>
+        
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Custom Brand
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Add Custom Brand Inspiration</DialogTitle>
+              <DialogDescription>
+                Create your own brand inspiration based on a company you admire.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium text-gray-700">Brand Name</label>
+                <Input
+                  placeholder="e.g., Patagonia"
+                  value={customName}
+                  onChange={(e) => setCustomName(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700">Category</label>
+                <Input
+                  placeholder="e.g., Outdoor Apparel"
+                  value={customCategory}
+                  onChange={(e) => setCustomCategory(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700">Strategy Description</label>
+                <Textarea
+                  placeholder="Describe their marketing approach, key strategies, and what makes them unique..."
+                  value={customDescription}
+                  onChange={(e) => setCustomDescription(e.target.value)}
+                  className="mt-1"
+                  rows={3}
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700">Key Strengths (comma-separated)</label>
+                <Input
+                  placeholder="Environmental focus, Authentic storytelling, Community building"
+                  value={customStrengths}
+                  onChange={(e) => setCustomStrengths(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
+              
+              <Button 
+                onClick={handleCustomBrandSubmit}
+                disabled={!customName || !customDescription || !customCategory}
+                className="w-full bg-blue-600 hover:bg-blue-700"
+              >
+                Add Brand Inspiration
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Results count */}
+      <div className="text-sm text-gray-600">
+        Showing {filteredBrands.length} brand{filteredBrands.length !== 1 ? 's' : ''}
+      </div>
+
+      {/* Brand Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {brands.map((brand) => (
+        {filteredBrands.map((brand) => (
           <Card
             key={brand.id}
             className={`
@@ -112,6 +256,11 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
                     <Badge variant="secondary" className="mt-1 bg-blue-100 text-blue-700 border-blue-200">
                       {brand.category}
                     </Badge>
+                    {brand.id.startsWith('custom-') && (
+                      <Badge variant="outline" className="mt-1 ml-2 border-green-300 text-green-700 bg-green-50">
+                        Custom
+                      </Badge>
+                    )}
                   </div>
                 </div>
                 {selectedBrand === brand.id && (
@@ -124,7 +273,7 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
             <CardContent>
               <p className="text-gray-600 mb-4">{brand.description}</p>
               <div className="flex flex-wrap gap-2">
-                {brand.strengths.map((strength, index) => (
+                {brand.strengths.map((strength: string, index: number) => (
                   <Badge
                     key={index}
                     variant="outline"
@@ -140,13 +289,37 @@ const BrandSelector = ({ onNext, canGoBack }: BrandSelectorProps) => {
         ))}
       </div>
 
+      {/* No results */}
+      {filteredBrands.length === 0 && (
+        <Card className="bg-gray-50 border-gray-200">
+          <CardContent className="pt-6 text-center py-8">
+            <p className="text-gray-600 mb-4">No brands found matching "{searchTerm}"</p>
+            <Button 
+              variant="outline" 
+              onClick={() => setSearchTerm("")}
+              className="mr-3"
+            >
+              Clear Search
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDialogOpen(true)}
+              className="border-blue-300 text-blue-700"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Custom Brand
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="flex justify-end pt-6">
         <Button
           onClick={handleContinue}
           disabled={!selectedBrand}
           className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 text-lg"
         >
-          Continue to Business Context
+          Continue to Strategy Type
           <ChevronRight className="w-5 h-5 ml-2" />
         </Button>
       </div>
