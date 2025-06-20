@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft, Download, Share, Save, RefreshCw, Edit3, Copy, FileText } from "lucide-react";
 import { toast } from "sonner";
+import ExplainWhyModal from "./ExplainWhyModal";
 
 interface StrategyEditorProps {
   onPrevious: () => void;
@@ -63,25 +63,62 @@ const StrategyEditor = ({
     // Add regeneration logic here
   };
 
+  // Enhanced content rendering with explain why buttons
+  const renderContentWithExplanations = (content: string) => {
+    // Split content into sections for explanation
+    const sections = content.split('\n\n');
+    
+    return sections.map((section, index) => {
+      if (section.trim() === '') return null;
+      
+      const isHeading = section.includes('#') || section.match(/^[A-Z][^:]*:/);
+      
+      return (
+        <div key={index} className="mb-6 group">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              {isHeading ? (
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 pr-4">
+                  {section.replace(/^#+\s*/, '').replace(/:$/, '')}
+                </h3>
+              ) : (
+                <p className="text-gray-800 leading-relaxed mb-3 pr-4">
+                  {section}
+                </p>
+              )}
+            </div>
+            {isHeading && (
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                <ExplainWhyModal 
+                  strategySection={section.replace(/^#+\s*/, '').replace(/:$/, '')}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }).filter(Boolean);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-2xl text-gray-900 flex items-center">
+          <CardTitle className="text-xl lg:text-2xl text-gray-900 flex items-center">
             <Edit3 className="w-6 h-6 mr-3 text-blue-600" />
             Edit & Export Strategy
           </CardTitle>
-          <CardDescription className="text-gray-600 text-lg">
+          <CardDescription className="text-gray-600 text-base lg:text-lg">
             Review, edit, and export your AI-generated marketing strategy for {businessContext.companyName}.
           </CardDescription>
         </CardHeader>
       </Card>
 
-      {/* Strategy Metadata */}
+      {/* Strategy Metadata - Responsive */}
       <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
         <CardContent className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
             <div>
               <span className="font-medium text-gray-700">Brand Inspiration:</span>
               <p className="text-gray-900">{selectedBrand.name}</p>
@@ -102,7 +139,7 @@ const StrategyEditor = ({
         </CardContent>
       </Card>
 
-      {/* Action Buttons */}
+      {/* Action Buttons - Responsive */}
       <div className="flex flex-wrap gap-3">
         <Button
           onClick={() => setIsEditing(!isEditing)}
@@ -159,7 +196,7 @@ const StrategyEditor = ({
         </div>
       </div>
 
-      {/* Strategy Content */}
+      {/* Strategy Content - Enhanced with explanations */}
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardContent className="pt-6">
           {isEditing ? (
@@ -172,7 +209,7 @@ const StrategyEditor = ({
           ) : (
             <div className="prose prose-lg max-w-none">
               <div className="whitespace-pre-wrap text-gray-800 leading-relaxed">
-                {editedContent}
+                {renderContentWithExplanations(editedContent)}
               </div>
             </div>
           )}

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,11 @@ import BusinessContextForm from "@/components/BusinessContextForm";
 import AIModelSelector from "@/components/AIModelSelector";
 import StrategyGenerator from "@/components/StrategyGenerator";
 import StrategyEditor from "@/components/StrategyEditor";
+import ResponsiveNavbar from "@/components/ResponsiveNavbar";
+import ResponsiveFooter from "@/components/ResponsiveFooter";
+import ExplainWhyModal from "@/components/ExplainWhyModal";
+import ActionTranslator from "@/components/ActionTranslator";
+import StrategyFeedback from "@/components/StrategyFeedback";
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -43,6 +47,34 @@ const Index = () => {
   const handlePrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Marketing Strategy - IntelMarkForge',
+        text: 'Check out this AI-generated marketing strategy!',
+        url: window.location.href,
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success("Link copied to clipboard!");
+    }
+  };
+
+  const handleExport = () => {
+    if (generatedStrategy) {
+      const blob = new Blob([generatedStrategy.content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'marketing-strategy.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast.success("Strategy exported successfully!");
     }
   };
 
@@ -116,39 +148,39 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="border-b border-gray-200 bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">IntelMarkForge</h1>
-                <p className="text-blue-600 text-sm">AI-Powered Marketing Strategy Platform</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
-                Gemini AI Powered
-              </Badge>
-              <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-50">
-                <Share className="w-4 h-4 mr-2" />
-                Share
-              </Button>
-              <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-50">
-                <Download className="w-4 h-4 mr-2" />
-                Export
-              </Button>
-            </div>
+      <ResponsiveNavbar 
+        showBackButton={currentStep > 0}
+        onShare={generatedStrategy ? handleShare : undefined}
+        onExport={generatedStrategy ? handleExport : undefined}
+      />
+
+      {/* Progress Indicator - Enhanced for mobile */}
+      <div className="container mx-auto px-4 py-6 lg:py-8">
+        {/* Mobile Progress Bar */}
+        <div className="lg:hidden mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-gray-600">
+              Step {currentStep + 1} of {steps.length}
+            </span>
+            <span className="text-sm text-gray-500">
+              {Math.round(((currentStep + 1) / steps.length) * 100)}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            ></div>
+          </div>
+          <div className="mt-3 text-center">
+            <h3 className="text-lg font-semibold text-gray-900">
+              {steps[currentStep].title}
+            </h3>
           </div>
         </div>
-      </header>
 
-      {/* Progress Indicator */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row items-center justify-between mb-8 space-y-4 lg:space-y-0">
+        {/* Desktop Progress Indicator */}
+        <div className="hidden lg:flex flex-col lg:flex-row items-center justify-between mb-8 space-y-4 lg:space-y-0">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isActive = index === currentStep;
@@ -184,7 +216,23 @@ const Index = () => {
         <div className="max-w-6xl mx-auto">
           {renderCurrentStep()}
         </div>
+
+        {/* Enhanced Features - Show on final step */}
+        {currentStep === steps.length - 1 && generatedStrategy && (
+          <div className="max-w-6xl mx-auto mt-8 space-y-6">
+            <ActionTranslator 
+              strategy={generatedStrategy.content}
+              onActionPlan={(actions) => console.log('Action plan:', actions)}
+            />
+            <StrategyFeedback 
+              strategyId={generatedStrategy.id}
+              onFeedbackSubmit={(feedback) => console.log('Feedback:', feedback)}
+            />
+          </div>
+        )}
       </div>
+
+      <ResponsiveFooter />
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +14,8 @@ import {
   Play
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import ResponsiveNavbar from "@/components/ResponsiveNavbar";
+import ResponsiveFooter from "@/components/ResponsiveFooter";
 
 const LandingPage = () => {
   const aiEngines = [
@@ -38,6 +39,13 @@ const LandingPage = () => {
     { title: "Edit & Download", description: "Customize and export in multiple formats" }
   ];
 
+  const aiModels = [
+    { name: "OpenAI GPT", icon: Brain, description: "State-of-the-art language model" },
+    { name: "Google Gemini", icon: Lightbulb, description: "Advanced natural language processing" },
+    { name: "Anthropic Claude", icon: Target, description: "High-quality text generation" },
+    { name: "Mistral AI", icon: Download, description: "Efficient and scalable AI model" }
+  ];
+
   const testimonials = [
     {
       name: "Sarah Chen",
@@ -55,79 +63,62 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">IntelMarkForge</span>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#how-it-works" className="text-gray-600 hover:text-gray-900">How It Works</a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
-              <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
-              <Button variant="outline" size="sm">Login</Button>
-              <Link to="/app">
-                <Button size="sm">Start for Free</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+      <ResponsiveNavbar />
+      
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto">
-            <Badge className="mb-6 bg-blue-100 text-blue-700 border-blue-200">
-              Powered by Multiple AI Engines
-            </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Build Marketing Strategies <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Backed by AI</span>
+      <section className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 sm:py-20 lg:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+              Build Marketing Strategies
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                {" "}Backed by AI
+              </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Get expert-level marketing strategies in minutes. Our AI combines insights from successful brands like Apple, Tesla, and Nike to create personalized plans for your business.
+            <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed max-w-3xl mx-auto">
+              Transform your marketing approach with AI-powered strategies inspired by top brands. 
+              Generate, customize, and execute winning campaigns in minutes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/app">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link to="/auth">
+                <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4">
+                  <Brain className="w-5 h-5 mr-2" />
                   Start for Free
-                  <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-8 py-4">
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
             </div>
+            <p className="text-sm text-gray-500 mt-4">
+              No credit card required • 3 free strategies included
+            </p>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-white">
+      {/* How It Works Section */}
+      <section className="py-16 sm:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Four simple steps to get your AI-powered marketing strategy
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              Four simple steps to create professional marketing strategies
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {steps.map((step, index) => (
-              <Card key={index} className="text-center border-gray-200 hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-blue-600 font-bold text-xl">{index + 1}</span>
+              <Card key={index} className="text-center border-gray-200 hover:shadow-lg transition-all duration-300 group">
+                <CardContent className="pt-8 pb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <step.icon className="w-8 h-8 text-white" />
                   </div>
-                  <CardTitle className="text-lg">{step.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">{step.description}</p>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{step.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -135,141 +126,135 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* AI Engines */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Powered by Leading AI Engines</h2>
-          <p className="text-xl text-gray-600 mb-12">
-            We combine multiple AI models for diverse perspectives and higher quality outputs
-          </p>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {aiEngines.map((engine, index) => (
-              <Card key={index} className="p-6 border-gray-200 hover:shadow-lg transition-shadow">
-                <div className="text-4xl mb-4">{engine.logo}</div>
-                <h3 className="font-semibold text-gray-900">{engine.name}</h3>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Use Cases */}
-      <section className="py-20 bg-white">
+      {/* Supported AI Engines Section */}
+      <section className="py-16 sm:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Perfect for Every Business</h2>
-            <p className="text-xl text-gray-600">
-              From startups to agencies, our AI adapts to your unique needs
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Powered by Leading AI Models
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Choose from the best AI models or let our system automatically select the optimal one
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {useCases.map((useCase, index) => {
-              const Icon = useCase.icon;
-              return (
-                <Card key={index} className="p-6 border-gray-200 hover:shadow-lg transition-shadow">
-                  <Icon className="w-10 h-10 text-blue-600 mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{useCase.title}</h3>
-                  <p className="text-gray-600">{useCase.description}</p>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8">
+            {aiModels.map((model, index) => (
+              <Card key={index} className="text-center border-gray-200 hover:shadow-md transition-shadow duration-300">
+                <CardContent className="pt-6 pb-4">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <model.icon className="w-6 h-6 text-gray-700" />
+                  </div>
+                  <h4 className="font-semibold text-gray-900 text-sm">{model.name}</h4>
+                  <p className="text-xs text-gray-500 mt-1">{model.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-blue-50">
+      {/* Use Cases Section */}
+      <section className="py-16 sm:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Users Say</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Perfect for Every Business
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              From startups to enterprises, create strategies that drive results
+            </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-6 border-gray-200">
-                <div className="flex items-center mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-4">"{testimonial.content}"</p>
-                <div>
-                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                  <div className="text-gray-600 text-sm">{testimonial.role}</div>
-                </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {useCases.map((useCase, index) => (
+              <Card key={index} className="border-gray-200 hover:shadow-lg transition-all duration-300 group">
+                <CardContent className="pt-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
+                      <useCase.icon className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900">{useCase.title}</h3>
+                  </div>
+                  <p className="text-gray-600 leading-relaxed">{useCase.description}</p>
+                </CardContent>
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Sample Strategy Preview */}
+      <section className="py-16 sm:py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              See AI in Action
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Preview of a Tesla-inspired product launch strategy
+            </p>
+          </div>
+          
+          <Card className="max-w-4xl mx-auto border-gray-200 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <CardTitle className="text-xl sm:text-2xl text-gray-900">
+                    Tesla-Inspired Product Launch Strategy
+                  </CardTitle>
+                  <CardDescription className="text-gray-600 mt-2">
+                    Generated by Gemini AI • Brand: Tesla • Industry: Technology
+                  </CardDescription>
+                </div>
+                <Badge className="bg-green-100 text-green-700 border-green-200 self-start sm:self-center">
+                  Sample Output
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                <h3 className="text-lg font-semibold mb-3">Executive Summary</h3>
+                <p className="mb-4">
+                  This Tesla-inspired strategy focuses on building anticipation through innovation storytelling, 
+                  creating an exclusive community of early adopters, and leveraging social proof to drive organic growth...
+                </p>
+                <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                  <p className="text-sm text-blue-800 font-medium">
+                    ✨ Want to see the complete strategy? Sign up to generate your personalized marketing plan!
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Marketing?</h2>
-          <p className="text-xl mb-8 opacity-90">
-            Join thousands of businesses using AI to create winning marketing strategies
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            Ready to Transform Your Marketing?
+          </h2>
+          <p className="text-lg sm:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Join thousands of businesses already using AI to create winning strategies
           </p>
-          <Link to="/app">
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
-              Start for Free Today
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link to="/auth">
+              <Button size="lg" variant="secondary" className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-50 text-lg px-8 py-4">
+                <Zap className="w-5 h-5 mr-2" />
+                Get Started Free
+              </Button>
+            </Link>
+            <div className="flex items-center text-blue-100 text-sm">
+              <CheckCircle className="w-4 h-4 mr-2" />
+              No credit card required
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 bg-gray-900 text-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                  <Brain className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold">IntelMarkForge</span>
-              </div>
-              <p className="text-gray-400">
-                AI-powered marketing strategies for modern businesses.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Product</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">Features</a></li>
-                <li><a href="#" className="hover:text-white">Pricing</a></li>
-                <li><a href="#" className="hover:text-white">API</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">About</a></li>
-                <li><a href="#" className="hover:text-white">Blog</a></li>
-                <li><a href="#" className="hover:text-white">Contact</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Support</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">Help Center</a></li>
-                <li><a href="#" className="hover:text-white">FAQs</a></li>
-                <li><a href="#" className="hover:text-white">Terms</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 IntelMarkForge. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <ResponsiveFooter />
     </div>
   );
 };
