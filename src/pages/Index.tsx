@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -61,7 +60,10 @@ const Index = () => {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success("Link copied to clipboard!");
+      toast({
+        title: "Success",
+        description: "Link copied to clipboard!"
+      });
     }
   };
 
@@ -76,7 +78,10 @@ const Index = () => {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      toast.success("Strategy exported successfully!");
+      toast({
+        title: "Success",
+        description: "Strategy exported successfully!"
+      });
     }
   };
 
