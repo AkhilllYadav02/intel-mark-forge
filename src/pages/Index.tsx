@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Lightbulb, Target, Download, Share, Edit, Settings, Users } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import BrandSelector from "@/components/BrandSelector";
 import StrategyTypeSelector from "@/components/StrategyTypeSelector";
 import BusinessContextForm from "@/components/BusinessContextForm";
