@@ -1,262 +1,278 @@
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { 
-  Brain, 
   Plus, 
-  FileText, 
-  Settings, 
-  HelpCircle, 
-  Menu,
+  Brain, 
+  Target, 
+  Users, 
+  BarChart3, 
+  Clock, 
   Star,
-  Calendar,
+  ArrowRight,
+  Sparkles,
   TrendingUp,
-  User
+  Award,
+  Zap
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ResponsiveNavbar from "@/components/ResponsiveNavbar";
 
 const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [userStats] = useState({
+    strategiesCreated: 12,
+    averageRating: 4.6,
+    totalViews: 2847,
+    planType: "Pro"
+  });
 
   const recentStrategies = [
     {
       id: 1,
-      title: "Tesla-Inspired Product Launch",
-      date: "2024-01-15",
-      aiModel: "GPT-4",
-      status: "Completed"
+      title: "Tesla-Inspired EV Startup Launch",
+      type: "Product Launch",
+      brand: "Tesla",
+      createdAt: "2 days ago",
+      rating: 4.8,
+      status: "Complete"
     },
     {
       id: 2,
-      title: "Apple-Style Customer Retention",
-      date: "2024-01-14",
-      aiModel: "Claude",
+      title: "Nike-Style Fitness App Campaign",
+      type: "Digital Marketing",
+      brand: "Nike",
+      createdAt: "1 week ago",
+      rating: 4.5,
       status: "Draft"
     },
     {
       id: 3,
-      title: "Nike Marketing Campaign",
-      date: "2024-01-12",
-      aiModel: "Gemini",
-      status: "Completed"
+      title: "Apple-Inspired Tech Product Positioning",
+      type: "Brand Positioning",
+      brand: "Apple",
+      createdAt: "2 weeks ago",
+      rating: 4.9,
+      status: "Complete"
     }
   ];
 
-  const tips = [
-    "Use specific target audience descriptions for better AI results",
-    "Try combining multiple brand inspirations for unique strategies",
-    "Export your strategies as PDF for client presentations",
-    "Use the 'Regenerate' feature to explore different approaches"
+  const quickActions = [
+    {
+      title: "Create New Strategy",
+      description: "Start with brand inspiration",
+      icon: Plus,
+      href: "/app/create",
+      gradient: "gradient-primary"
+    },
+    {
+      title: "Browse Templates",
+      description: "Explore strategy templates",
+      icon: Brain,
+      href: "/app/templates",
+      gradient: "gradient-secondary"
+    },
+    {
+      title: "View Analytics",
+      description: "Track your performance",
+      icon: BarChart3,
+      href: "/app/analytics",
+      gradient: "gradient-accent"
+    }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <ResponsiveNavbar />
       
-      <div className="flex">
-        {/* Sidebar - Hidden on mobile, collapsible on desktop */}
-        <aside className={`bg-white border-r border-gray-200 transition-all duration-300 ${
-          sidebarOpen ? 'w-0 lg:w-64' : 'w-0 lg:w-16'
-        } hidden lg:block`}>
-          <div className="p-4">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
-              {sidebarOpen && (
-                <span className="text-lg font-bold text-gray-900">Dashboard</span>
-              )}
+      <div className="container mx-auto px-4 py-8">
+        {/* Welcome Section */}
+        <div className="mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gradient mb-2">
+                Welcome back! 👋
+              </h1>
+              <p className="text-gray-300 text-lg">
+                Ready to create your next marketing strategy?
+              </p>
             </div>
-            
-            <nav className="space-y-2">
-              <Link to="/app/create" className="flex items-center space-x-3 w-full p-3 text-left rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors">
-                <Plus className="w-5 h-5" />
-                {sidebarOpen && <span>Create New Strategy</span>}
-              </Link>
-              
-              <Link to="/app/strategies" className="flex items-center space-x-3 w-full p-3 text-left rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                <FileText className="w-5 h-5" />
-                {sidebarOpen && <span>Saved Strategies</span>}
-              </Link>
-              
-              <Link to="/app/settings" className="flex items-center space-x-3 w-full p-3 text-left rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                <Settings className="w-5 h-5" />
-                {sidebarOpen && <span>Settings</span>}
-              </Link>
-              
-              <Link to="/app/help" className="flex items-center space-x-3 w-full p-3 text-left rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                <HelpCircle className="w-5 h-5" />
-                {sidebarOpen && <span>Help & Tutorials</span>}
-              </Link>
-            </nav>
-          </div>
-        </aside>
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-auto">
-          {/* Header - Mobile optimized */}
-          <header className="bg-white border-b border-gray-200 p-4 lg:hidden">
-            <div className="flex items-center justify-between">
-              <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
-              <div className="flex items-center space-x-3">
-                <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200 text-xs px-2 py-1">
-                  Pro Plan
-                </Badge>
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-blue-600" />
-                </div>
-              </div>
-            </div>
-          </header>
-
-          {/* Desktop Header */}
-          <header className="hidden lg:block bg-white border-b border-gray-200 p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
-                >
-                  <Menu className="w-5 h-5" />
+            <div className="flex items-center gap-3">
+              <Badge className="gradient-secondary px-3 py-1 text-sm font-medium">
+                <Award className="w-4 h-4 mr-1" />
+                {userStats.planType} Plan
+              </Badge>
+              <Link to="/app/create">
+                <Button className="gradient-primary glow hover:scale-105 transition-all duration-300">
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Strategy
                 </Button>
-                <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card className="gradient-card glass border-white/10 glow hover:scale-105 transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-300">
+                Strategies Created
+              </CardTitle>
+              <Brain className="h-4 w-4 text-blue-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-white">{userStats.strategiesCreated}</div>
+              <p className="text-xs text-gray-400 flex items-center mt-1">
+                <TrendingUp className="w-3 h-3 mr-1" />
+                +2 this week
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="gradient-card glass border-white/10 glow hover:scale-105 transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-300">
+                Average Rating
+              </CardTitle>
+              <Star className="h-4 w-4 text-yellow-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-white">{userStats.averageRating}</div>
+              <div className="flex items-center mt-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star 
+                    key={i} 
+                    className={`w-3 h-3 ${i < Math.floor(userStats.averageRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}`} 
+                  />
+                ))}
               </div>
-              
-              <div className="flex items-center space-x-4">
-                <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
-                  Pro Plan
-                </Badge>
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User className="w-5 h-5 text-blue-600" />
-                </div>
-              </div>
-            </div>
-          </header>
+            </CardContent>
+          </Card>
 
-          {/* Dashboard Content */}
-          <div className="p-4 lg:p-6">
-            {/* Welcome Section */}
-            <div className="mb-6 lg:mb-8">
-              <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Welcome back, Sarah! 👋</h2>
-              <p className="text-gray-600">Ready to create your next winning marketing strategy?</p>
-            </div>
+          <Card className="gradient-card glass border-white/10 glow hover:scale-105 transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-300">
+                Total Views
+              </CardTitle>
+              <Users className="h-4 w-4 text-green-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-white">{userStats.totalViews.toLocaleString()}</div>
+              <p className="text-xs text-gray-400 flex items-center mt-1">
+                <TrendingUp className="w-3 h-3 mr-1" />
+                +12% this month
+              </p>
+            </CardContent>
+          </Card>
 
-            {/* Quick Actions - Responsive Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
-              <Card className="border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
-                <Link to="/app/create">
-                  <CardHeader className="text-center">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Plus className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <CardTitle className="text-lg">Create New Strategy</CardTitle>
-                    <CardDescription>
-                      Start with brand inspiration and AI guidance
-                    </CardDescription>
-                  </CardHeader>
+          <Card className="gradient-card glass border-white/10 glow hover:scale-105 transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-300">
+                Success Rate
+              </CardTitle>
+              <Target className="h-4 w-4 text-purple-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-white">94%</div>
+              <Progress value={94} className="mt-2 h-1" />
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+            <Zap className="w-6 h-6 mr-2 text-yellow-400" />
+            Quick Actions
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {quickActions.map((action, index) => {
+              const Icon = action.icon;
+              return (
+                <Link key={index} to={action.href}>
+                  <Card className="gradient-card glass border-white/10 glow hover:scale-105 transition-all duration-300 cursor-pointer group">
+                    <CardHeader>
+                      <div className={`w-12 h-12 ${action.gradient} rounded-full flex items-center justify-center mb-3 glow group-hover:scale-110 transition-transform`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <CardTitle className="text-white group-hover:text-gradient-primary transition-colors">
+                        {action.title}
+                      </CardTitle>
+                      <CardDescription className="text-gray-300">
+                        {action.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="flex items-center text-sm text-gray-400 group-hover:text-white transition-colors">
+                        Get started
+                        <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </CardContent>
+                  </Card>
                 </Link>
-              </Card>
+              );
+            })}
+          </div>
+        </div>
 
-              <Card className="border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
-                <Link to="/app/strategies">
-                  <CardHeader className="text-center">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <FileText className="w-6 h-6 text-green-600" />
-                    </div>
-                    <CardTitle className="text-lg">View Strategies</CardTitle>
-                    <CardDescription>
-                      Access your saved marketing plans
-                    </CardDescription>
-                  </CardHeader>
-                </Link>
-              </Card>
-
-              <Card className="border-gray-200 hover:shadow-lg transition-shadow cursor-pointer sm:col-span-2 lg:col-span-1">
-                <CardHeader className="text-center">
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <TrendingUp className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <CardTitle className="text-lg">Analytics</CardTitle>
-                  <CardDescription>
-                    Track strategy performance
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
-
-            {/* Recent Strategies & Tips - Responsive Layout */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
-              {/* Recent Strategies */}
-              <Card className="border-gray-200">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Calendar className="w-5 h-5 mr-2" />
-                    Recent Strategies
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {recentStrategies.map((strategy) => (
-                      <div key={strategy.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg gap-3">
-                        <div className="flex-1">
-                          <h4 className="font-medium text-gray-900">{strategy.title}</h4>
-                          <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 mt-1">
-                            <span>{strategy.date}</span>
-                            <span>•</span>
-                            <span>{strategy.aiModel}</span>
-                          </div>
-                        </div>
+        {/* Recent Strategies */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Clock className="w-6 h-6 mr-2 text-blue-400" />
+              Recent Strategies
+            </h2>
+            <Link to="/app/strategies">
+              <Button variant="outline" className="glass hover:bg-white/10 transition-colors">
+                View All
+              </Button>
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {recentStrategies.map((strategy) => (
+              <Card key={strategy.id} className="gradient-card glass border-white/10 glow hover:scale-105 transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-lg font-semibold text-white">{strategy.title}</h3>
                         <Badge 
-                          variant={strategy.status === 'Completed' ? 'default' : 'secondary'}
-                          className={strategy.status === 'Completed' 
-                            ? 'bg-green-100 text-green-700 self-start sm:self-center' 
-                            : 'bg-yellow-100 text-yellow-700 self-start sm:self-center'
-                          }
+                          variant={strategy.status === 'Complete' ? 'default' : 'secondary'}
+                          className={strategy.status === 'Complete' ? 'gradient-secondary' : 'bg-gray-700'}
                         >
                           {strategy.status}
                         </Badge>
                       </div>
-                    ))}
-                  </div>
-                  <Link to="/app/strategies">
-                    <Button variant="outline" className="w-full mt-4">
-                      View All Strategies
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              {/* Tips & Examples */}
-              <Card className="border-gray-200">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Star className="w-5 h-5 mr-2" />
-                    Tips & Best Practices
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {tips.map((tip, index) => (
-                      <div key={index} className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-sm text-gray-700 leading-relaxed">{tip}</p>
+                      <div className="flex items-center gap-4 text-sm text-gray-400">
+                        <span className="flex items-center">
+                          <Target className="w-4 h-4 mr-1" />
+                          {strategy.type}
+                        </span>
+                        <span className="flex items-center">
+                          <Sparkles className="w-4 h-4 mr-1" />
+                          Inspired by {strategy.brand}
+                        </span>
+                        <span>{strategy.createdAt}</span>
                       </div>
-                    ))}
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center text-yellow-400">
+                        <Star className="w-4 h-4 mr-1 fill-current" />
+                        <span className="text-white">{strategy.rating}</span>
+                      </div>
+                      <Button variant="outline" size="sm" className="glass hover:bg-white/10 transition-colors">
+                        <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
-                  <Link to="/app/help">
-                    <Button variant="outline" className="w-full mt-4">
-                      Learn More
-                    </Button>
-                  </Link>
                 </CardContent>
               </Card>
-            </div>
+            ))}
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );

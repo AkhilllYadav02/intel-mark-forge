@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Lightbulb, Target, Download, Share, Edit, Settings, Users } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import BrandSelector from "@/components/BrandSelector";
 import StrategyTypeSelector from "@/components/StrategyTypeSelector";
 import BusinessContextForm from "@/components/BusinessContextForm";
@@ -60,10 +60,7 @@ const Index = () => {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast({
-        title: "Success",
-        description: "Link copied to clipboard!"
-      });
+      toast.success("Link copied to clipboard!");
     }
   };
 
@@ -78,10 +75,7 @@ const Index = () => {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      toast({
-        title: "Success",
-        description: "Strategy exported successfully!"
-      });
+      toast.success("Strategy exported successfully!");
     }
   };
 
@@ -154,7 +148,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <ResponsiveNavbar 
         showBackButton={currentStep > 0}
         onShare={generatedStrategy ? handleShare : undefined}
@@ -165,25 +159,29 @@ const Index = () => {
       <div className="container mx-auto px-4 py-6 lg:py-8">
         {/* Mobile Progress Bar */}
         <div className="lg:hidden mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-600">
-              Step {currentStep + 1} of {steps.length}
-            </span>
-            <span className="text-sm text-gray-500">
-              {Math.round(((currentStep + 1) / steps.length) * 100)}%
-            </span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-            ></div>
-          </div>
-          <div className="mt-3 text-center">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {steps[currentStep].title}
-            </h3>
-          </div>
+          <Card className="gradient-card glass border-white/10">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-300">
+                  Step {currentStep + 1} of {steps.length}
+                </span>
+                <span className="text-sm text-gray-400">
+                  {Math.round(((currentStep + 1) / steps.length) * 100)}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mb-3">
+                <div 
+                  className="gradient-primary h-2 rounded-full transition-all duration-300 glow-blue"
+                  style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+                ></div>
+              </div>
+              <div className="text-center">
+                <h3 className="text-lg font-semibold text-white">
+                  {steps[currentStep].title}
+                </h3>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Desktop Progress Indicator */}
@@ -197,21 +195,21 @@ const Index = () => {
               <div key={index} className="flex items-center w-full lg:w-auto">
                 <div className={`
                   flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300
-                  ${isActive ? 'bg-blue-500 border-blue-500 text-white' : 
-                    isCompleted ? 'bg-green-500 border-green-500 text-white' : 
-                    'border-gray-300 text-gray-400 bg-white'}
+                  ${isActive ? 'gradient-primary border-transparent text-white glow-blue' : 
+                    isCompleted ? 'gradient-secondary border-transparent text-white glow' : 
+                    'border-gray-600 text-gray-400 bg-gray-800/50 glass'}
                 `}>
                   <Icon className="w-6 h-6" />
                 </div>
                 <div className="ml-3 flex-1 lg:flex-none">
-                  <p className={`font-medium ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>
+                  <p className={`font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>
                     {step.title}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`
                     hidden lg:block w-24 h-0.5 mx-8 transition-all duration-300
-                    ${isCompleted ? 'bg-green-500' : 'bg-gray-200'}
+                    ${isCompleted ? 'gradient-secondary' : 'bg-gray-700'}
                   `} />
                 )}
               </div>

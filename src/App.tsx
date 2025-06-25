@@ -19,7 +19,7 @@ const AppContent = () => {
   const showFooter = location.pathname === '/';
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
@@ -30,17 +30,19 @@ const AppContent = () => {
         <Route path="/app/help" element={<Help />} />
       </Routes>
       {showFooter && <ResponsiveFooter />}
-    </>
+    </div>
   );
 };
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <div className="dark">
+        <Toaster theme="dark" />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </div>
     </TooltipProvider>
   </QueryClientProvider>
 );
