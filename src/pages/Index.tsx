@@ -148,7 +148,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       <ResponsiveNavbar 
         showBackButton={currentStep > 0}
         onShare={generatedStrategy ? handleShare : undefined}
@@ -159,24 +159,24 @@ const Index = () => {
       <div className="container mx-auto px-4 py-6 lg:py-8">
         {/* Mobile Progress Bar */}
         <div className="lg:hidden mb-6">
-          <Card className="gradient-card glass border-white/10">
+          <Card className="glass-card shadow-soft">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-300">
+                <span className="text-sm font-medium text-gray-700">
                   Step {currentStep + 1} of {steps.length}
                 </span>
-                <span className="text-sm text-gray-400">
+                <span className="text-sm text-gray-500">
                   {Math.round(((currentStep + 1) / steps.length) * 100)}%
                 </span>
               </div>
-              <div className="w-full bg-gray-700 rounded-full h-2 mb-3">
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
                 <div 
-                  className="gradient-primary h-2 rounded-full transition-all duration-300 glow-blue"
+                  className="gradient-primary h-2 rounded-full transition-all duration-300 shadow-blue"
                   style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
                 ></div>
               </div>
               <div className="text-center">
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-gray-900">
                   {steps[currentStep].title}
                 </h3>
               </div>
@@ -195,21 +195,21 @@ const Index = () => {
               <div key={index} className="flex items-center w-full lg:w-auto">
                 <div className={`
                   flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300
-                  ${isActive ? 'gradient-primary border-transparent text-white glow-blue' : 
-                    isCompleted ? 'gradient-secondary border-transparent text-white glow' : 
-                    'border-gray-600 text-gray-400 bg-gray-800/50 glass'}
+                  ${isActive ? 'gradient-primary border-transparent text-white shadow-blue' : 
+                    isCompleted ? 'gradient-secondary border-transparent text-white shadow-purple' : 
+                    'border-gray-300 text-gray-500 bg-white shadow-soft'}
                 `}>
                   <Icon className="w-6 h-6" />
                 </div>
                 <div className="ml-3 flex-1 lg:flex-none">
-                  <p className={`font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>
+                  <p className={`font-medium ${isActive ? 'text-gray-900' : 'text-gray-600'}`}>
                     {step.title}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`
                     hidden lg:block w-24 h-0.5 mx-8 transition-all duration-300
-                    ${isCompleted ? 'gradient-secondary' : 'bg-gray-700'}
+                    ${isCompleted ? 'gradient-secondary' : 'bg-gray-300'}
                   `} />
                 )}
               </div>

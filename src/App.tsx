@@ -19,7 +19,7 @@ const AppContent = () => {
   const showFooter = location.pathname === '/';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
@@ -37,8 +37,8 @@ const AppContent = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <div className="dark">
-        <Toaster theme="dark" />
+      <div className="light">
+        <Toaster />
         <BrowserRouter>
           <AppContent />
         </BrowserRouter>
