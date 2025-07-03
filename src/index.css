@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  .dark {
+    color-scheme: dark;
+  }
+}
+
 /* Dark Gradient Design System */
 
 @layer base {
