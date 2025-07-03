@@ -26,7 +26,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <Card className="gradient-card glass border-white/10 glow">
           <CardHeader className="text-center space-y-4">
