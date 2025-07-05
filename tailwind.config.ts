@@ -61,7 +61,26 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// StrategIQ Brand Colors
+				'violet-primary': 'hsl(var(--violet-primary))',
+				'sky-blue': 'hsl(var(--sky-blue))',
+				'sunset-orange': 'hsl(var(--sunset-orange))',
+				'lilac-pink': 'hsl(var(--lilac-pink))',
+				'light-yellow': 'hsl(var(--light-yellow))'
+			},
+			fontFamily: {
+				'heading': ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+				'body': ['Manrope', 'DM Sans', 'system-ui', 'sans-serif'],
+				sans: ['Inter', 'system-ui', 'sans-serif']
+			},
+			fontSize: {
+				'display': '48px',
+				'h1': '40px',
+				'h2': '32px',
+				'body-lg': '18px',
+				'body': '16px',
+				'btn': '14px'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

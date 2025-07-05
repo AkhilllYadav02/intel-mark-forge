@@ -26,18 +26,18 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
+    <div className="min-h-screen gradient-soft flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <Card className="gradient-card glass border-white/10 glow">
+        <Card className="card-elevated">
           <CardHeader className="text-center space-y-4">
-            <div className="mx-auto w-16 h-16 gradient-primary rounded-full flex items-center justify-center glow-blue">
+            <div className="mx-auto w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-violet">
               <Brain className="h-8 w-8 text-white" />
             </div>
             <div>
-              <CardTitle className="text-2xl font-bold text-gradient">
-                {isLogin ? 'Welcome Back' : 'Join IntelMarkForge'}
+              <CardTitle className="text-h2 font-heading font-bold text-gradient">
+                {isLogin ? 'Welcome Back' : 'Join StrategIQ'}
               </CardTitle>
-              <CardDescription className="text-gray-300 mt-2">
+              <CardDescription className="text-muted-foreground mt-2 font-body">
                 {isLogin 
                   ? 'Sign in to continue creating AI-powered marketing strategies'
                   : 'Create your account and start generating marketing strategies'
@@ -51,7 +51,7 @@ const AuthPage = () => {
             <div className="space-y-3">
               <Button 
                 variant="outline" 
-                className="w-full glass hover:bg-white/10 transition-colors border-white/20"
+                className="w-full btn-secondary hover-lift"
                 onClick={() => console.log('Google login')}
               >
                 <div className="flex items-center justify-center space-x-2">
@@ -61,28 +61,28 @@ const AuthPage = () => {
                     <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                     <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                   </svg>
-                  <span className="text-white">Continue with Google</span>
+                  <span className="font-body">Continue with Google</span>
                 </div>
               </Button>
               
               <Button 
                 variant="outline" 
-                className="w-full glass hover:bg-white/10 transition-colors border-white/20"
+                className="w-full btn-secondary hover-lift"
                 onClick={() => console.log('GitHub login')}
               >
                 <div className="flex items-center justify-center space-x-2">
                   <Github className="w-5 h-5" />
-                  <span className="text-white">Continue with GitHub</span>
+                  <span className="font-body">Continue with GitHub</span>
                 </div>
               </Button>
             </div>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/20"></div>
+                <div className="w-full border-t border-border"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-gradient-to-r from-slate-800 to-slate-900 text-gray-400">
+                <span className="px-4 bg-card text-muted-foreground font-body">
                   Or continue with email
                 </span>
               </div>
@@ -92,55 +92,55 @@ const AuthPage = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Full Name</label>
+                  <label className="text-sm font-medium text-foreground font-body">Full Name</label>
                   <Input
                     type="text"
                     placeholder="Enter your full name"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="glass border-white/20 bg-white/5 text-white placeholder:text-gray-400 focus:border-purple-400 transition-colors"
+                    className="border-border bg-card text-foreground placeholder:text-muted-foreground focus:border-primary"
                   />
                 </div>
               )}
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Email</label>
+                <label className="text-sm font-medium text-foreground font-body">Email</label>
                 <Input
                   type="email"
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="glass border-white/20 bg-white/5 text-white placeholder:text-gray-400 focus:border-purple-400 transition-colors"
+                  className="border-border bg-card text-foreground placeholder:text-muted-foreground focus:border-primary"
                 />
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Password</label>
+                <label className="text-sm font-medium text-foreground font-body">Password</label>
                 <Input
                   type="password"
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="glass border-white/20 bg-white/5 text-white placeholder:text-gray-400 focus:border-purple-400 transition-colors"
+                  className="border-border bg-card text-foreground placeholder:text-muted-foreground focus:border-primary"
                 />
               </div>
 
               {!isLogin && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Confirm Password</label>
+                  <label className="text-sm font-medium text-foreground font-body">Confirm Password</label>
                   <Input
                     type="password"
                     placeholder="Confirm your password"
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                    className="glass border-white/20 bg-white/5 text-white placeholder:text-gray-400 focus:border-purple-400 transition-colors"
+                    className="border-border bg-card text-foreground placeholder:text-muted-foreground focus:border-primary"
                   />
                 </div>
               )}
 
               <Button 
                 type="submit" 
-                className="w-full gradient-primary glow hover:scale-105 transition-all duration-300"
+                className="w-full btn-primary hover-lift font-body"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -158,7 +158,7 @@ const AuthPage = () => {
               <button
                 type="button"
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-sm text-gray-300 hover:text-white transition-colors"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors font-body"
               >
                 {isLogin 
                   ? "Don't have an account? Sign up" 
@@ -172,7 +172,7 @@ const AuthPage = () => {
                 <button
                   type="button"
                   onClick={() => console.log('Forgot password')}
-                  className="text-sm text-gray-400 hover:text-purple-400 transition-colors"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors font-body"
                 >
                   Forgot your password?
                 </button>
