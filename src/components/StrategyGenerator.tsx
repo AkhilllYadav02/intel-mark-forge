@@ -12,7 +12,6 @@ interface StrategyGeneratorProps {
   selectedBrand: any;
   strategyType: any;
   businessContext: any;
-  aiModel: any;
   canGoBack: boolean;
 }
 
@@ -22,7 +21,6 @@ const StrategyGenerator = ({
   selectedBrand, 
   strategyType, 
   businessContext, 
-  aiModel, 
   canGoBack 
 }: StrategyGeneratorProps) => {
   const [progress, setProgress] = useState(0);
@@ -114,19 +112,20 @@ Format the response in markdown with clear headings and actionable recommendatio
     } catch (error) {
       console.error('Gemini API Error:', error);
       // Fallback to mock strategy
-      return `# Marketing Strategy for ${businessContext.companyName}
-Inspired by ${selectedBrand.name}'s Approach
+      return `Marketing Strategy for ${businessContext.companyName}
+Inspired by ${selectedBrand.name} Approach
 
-## Executive Summary
-Based on ${selectedBrand.name}'s proven methodology, we've developed a comprehensive marketing strategy tailored for ${businessContext.companyName} in the ${businessContext.industry} industry.
+Executive Summary
+Based on ${selectedBrand.name} proven methodology, we have developed a comprehensive marketing strategy tailored for ${businessContext.companyName} in the ${businessContext.industry} industry.
 
-## Strategic Framework
-### 1. Brand Positioning
+Strategic Framework
+
+1. Brand Positioning
 - Position ${businessContext.companyName} as a ${businessContext.strategicFocus} leader
 - Target audience: ${businessContext.targetAudience}
 - Unique value proposition aligned with market needs
 
-### 2. Implementation Plan
+2. Implementation Plan
 - Multi-channel approach for reaching ${businessContext.targetAudience}
 - Conversion optimization tactics
 - Customer onboarding process
@@ -150,7 +149,6 @@ This strategy combines proven methodologies with your unique business context.`;
         brand: selectedBrand,
         strategyType: strategyType,
         context: businessContext,
-        aiModel: aiModel,
         generatedAt: new Date().toISOString()
       }
     };
@@ -214,17 +212,17 @@ This strategy combines proven methodologies with your unique business context.`;
         </Card>
       </div>
 
-      {/* AI Model Info */}
+      {/* Strategy Type Info */}
       <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
         <CardContent className="pt-6">
           <div className="flex items-center space-x-3">
-            <div className="text-2xl">{aiModel.icon}</div>
+            <div className="text-2xl">🎯</div>
             <div>
-              <h3 className="font-semibold text-gray-900">{aiModel.name}</h3>
-              <p className="text-sm text-gray-600">{aiModel.provider} • {aiModel.speed} Speed</p>
+              <h3 className="font-semibold text-gray-900">{strategyType.title}</h3>
+              <p className="text-sm text-gray-600">AI-Powered Strategy Generation</p>
             </div>
             <Badge className="ml-auto bg-purple-100 text-purple-800">
-              {aiModel.pricing}
+              Premium Quality
             </Badge>
           </div>
         </CardContent>
@@ -297,7 +295,7 @@ This strategy combines proven methodologies with your unique business context.`;
             className="border-gray-300 text-gray-700 hover:bg-gray-50"
           >
             <ChevronLeft className="w-5 h-5 mr-2" />
-            Back to AI Model Selection
+            Back to Business Context
           </Button>
         </div>
       )}

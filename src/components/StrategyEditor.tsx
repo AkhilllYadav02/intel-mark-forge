@@ -13,7 +13,6 @@ interface StrategyEditorProps {
   selectedBrand: any;
   strategyType: any;
   businessContext: any;
-  aiModel: any;
   canGoBack: boolean;
 }
 
@@ -23,7 +22,6 @@ const StrategyEditor = ({
   selectedBrand,
   strategyType,
   businessContext,
-  aiModel,
   canGoBack 
 }: StrategyEditorProps) => {
   const [editedContent, setEditedContent] = useState(generatedStrategy?.content || "");
@@ -46,14 +44,21 @@ const StrategyEditor = ({
     toast.success(`Strategy exported as ${format.toUpperCase()}`);
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
+    const shareData = {
+      title: `Marketing Strategy for ${businessContext.companyName}`,
+      text: `Check out this AI-generated marketing strategy for ${businessContext.companyName}!\n\n${editedContent.substring(0, 200)}...`,
+    };
+
     if (navigator.share) {
-      navigator.share({
-        title: `Marketing Strategy for ${businessContext.companyName}`,
-        text: editedContent.substring(0, 100) + "...",
-      });
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        await navigator.clipboard.writeText(`${shareData.title}\n\n${editedContent}`);
+        toast.success("Strategy copied to clipboard!");
+      }
     } else {
-      navigator.clipboard.writeText(editedContent);
+      await navigator.clipboard.writeText(`${shareData.title}\n\n${editedContent}`);
       toast.success("Strategy copied to clipboard!");
     }
   };
@@ -71,7 +76,7 @@ const StrategyEditor = ({
     return sections.map((section, index) => {
       if (section.trim() === '') return null;
       
-      const isHeading = section.includes('#') || section.match(/^[A-Z][^:]*:/);
+      const isHeading = section.match(/^[A-Z][^:]*:?$/) || section.includes('Summary') || section.includes('Framework') || section.includes('Plan');
       
       return (
         <div key={index} className="mb-6 group">
@@ -82,7 +87,7 @@ const StrategyEditor = ({
                   {section.replace(/^#+\s*/, '').replace(/:$/, '')}
                 </h3>
               ) : (
-                <p className="text-gray-800 leading-relaxed mb-3 pr-4">
+                <p className="text-gray-800 leading-relaxed mb-3 pr-4 whitespace-pre-line">
                   {section}
                 </p>
               )}
@@ -128,8 +133,8 @@ const StrategyEditor = ({
               <p className="text-gray-900">{strategyType.title}</p>
             </div>
             <div>
-              <span className="font-medium text-gray-700">AI Model:</span>
-              <p className="text-gray-900">{aiModel.name}</p>
+              <span className="font-medium text-gray-700">AI Generated:</span>
+              <p className="text-gray-900">Premium Quality</p>
             </div>
             <div>
               <span className="font-medium text-gray-700">Generated:</span>

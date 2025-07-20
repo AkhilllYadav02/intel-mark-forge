@@ -28,7 +28,6 @@ const Index = () => {
     { title: "Brand Inspiration", icon: Lightbulb, component: BrandSelector },
     { title: "Strategy Type", icon: Target, component: StrategyTypeSelector },
     { title: "Business Context", icon: Users, component: BusinessContextForm },
-    { title: "AI Model", icon: Settings, component: AIModelSelector },
     { title: "AI Generation", icon: Brain, component: StrategyGenerator },
     { title: "Edit & Export", icon: Edit, component: StrategyEditor }
   ];
@@ -37,8 +36,7 @@ const Index = () => {
     if (currentStep === 0) setSelectedBrand(data);
     if (currentStep === 1) setStrategyType(data);
     if (currentStep === 2) setBusinessContext(data);
-    if (currentStep === 3) setAiModel(data);
-    if (currentStep === 4) setGeneratedStrategy(data);
+    if (currentStep === 3) setGeneratedStrategy(data);
     
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -51,15 +49,27 @@ const Index = () => {
     }
   };
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Marketing Strategy - IntelMarkForge',
-        text: 'Check out this AI-generated marketing strategy!',
-        url: window.location.href,
-      });
+  const handleShare = async () => {
+    if (generatedStrategy) {
+      const strategyText = `Marketing Strategy for ${businessContext?.companyName || 'Your Company'}\n\n${generatedStrategy.content}`;
+      
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `Marketing Strategy - ${businessContext?.companyName || 'StrategIQ'}`,
+            text: strategyText.substring(0, 200) + '...',
+            url: window.location.href,
+          });
+        } catch (error) {
+          await navigator.clipboard.writeText(strategyText);
+          toast.success("Strategy copied to clipboard!");
+        }
+      } else {
+        await navigator.clipboard.writeText(strategyText);
+        toast.success("Strategy copied to clipboard!");
+      }
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(window.location.href);
       toast.success("Link copied to clipboard!");
     }
   };
@@ -109,7 +119,7 @@ const Index = () => {
         );
       case 3:
         return (
-          <AIModelSelector
+          <StrategyGenerator
             onNext={handleNext}
             onPrevious={handlePrevious}
             selectedBrand={selectedBrand}
@@ -120,25 +130,12 @@ const Index = () => {
         );
       case 4:
         return (
-          <StrategyGenerator
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            selectedBrand={selectedBrand}
-            strategyType={strategyType}
-            businessContext={businessContext}
-            aiModel={aiModel}
-            canGoBack={currentStep > 0}
-          />
-        );
-      case 5:
-        return (
           <StrategyEditor
             onPrevious={handlePrevious}
             generatedStrategy={generatedStrategy}
             selectedBrand={selectedBrand}
             strategyType={strategyType}
             businessContext={businessContext}
-            aiModel={aiModel}
             canGoBack={currentStep > 0}
           />
         );
