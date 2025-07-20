@@ -8,6 +8,7 @@ import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import Index from "./pages/Index";
 import SavedStrategies from "./pages/SavedStrategies";
+import Templates from "./pages/Templates";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import ResponsiveFooter from "./components/ResponsiveFooter";
@@ -26,6 +27,7 @@ const AppContent = () => {
         <Route path="/app" element={<Dashboard />} />
         <Route path="/app/create" element={<Index />} />
         <Route path="/app/strategies" element={<SavedStrategies />} />
+        <Route path="/app/templates" element={<Templates />} />
         <Route path="/app/settings" element={<Settings />} />
         <Route path="/app/help" element={<Help />} />
       </Routes>

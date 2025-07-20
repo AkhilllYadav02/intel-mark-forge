@@ -17,6 +17,7 @@ import {
   Filter
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const SavedStrategies = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -76,10 +77,36 @@ const SavedStrategies = () => {
     return matchesSearch && matchesFilter;
   });
 
+  const handleViewStrategy = (strategy: any) => {
+    toast.success(`Viewing ${strategy.title}`);
+  };
+
+  const handleEditStrategy = (strategy: any) => {
+    toast.success(`Editing ${strategy.title}`);
+  };
+
+  const handleCopyStrategy = (strategy: any) => {
+    navigator.clipboard.writeText(strategy.description);
+    toast.success("Strategy copied to clipboard!");
+  };
+
+  const handleDownloadStrategy = (strategy: any) => {
+    const blob = new Blob([strategy.description], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${strategy.title.replace(/\s+/g, '-').toLowerCase()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success("Strategy downloaded successfully!");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
@@ -87,7 +114,7 @@ const SavedStrategies = () => {
               <p className="text-gray-600">Manage and access your AI-generated marketing strategies</p>
             </div>
             <Link to="/app/create">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button className="gradient-primary text-white shadow-blue hover-scale">
                 <FileText className="w-4 h-4 mr-2" />
                 Create New Strategy
               </Button>
@@ -98,7 +125,7 @@ const SavedStrategies = () => {
 
       <div className="container mx-auto px-4 py-8">
         {/* Search and Filter */}
-        <Card className="mb-8">
+        <Card className="glass-card shadow-soft mb-8">
           <CardContent className="pt-6">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">
@@ -107,7 +134,7 @@ const SavedStrategies = () => {
                   placeholder="Search strategies..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 border-gray-200 focus:border-primary"
                 />
               </div>
               <div className="flex gap-2">
@@ -115,6 +142,7 @@ const SavedStrategies = () => {
                   variant={filterBy === "all" ? "default" : "outline"}
                   onClick={() => setFilterBy("all")}
                   size="sm"
+                  className={filterBy === "all" ? "gradient-primary text-white" : ""}
                 >
                   All
                 </Button>
@@ -122,6 +150,7 @@ const SavedStrategies = () => {
                   variant={filterBy === "Product Launch" ? "default" : "outline"}
                   onClick={() => setFilterBy("Product Launch")}
                   size="sm"
+                  className={filterBy === "Product Launch" ? "gradient-primary text-white" : ""}
                 >
                   Product Launch
                 </Button>
@@ -129,6 +158,7 @@ const SavedStrategies = () => {
                   variant={filterBy === "Marketing Campaign" ? "default" : "outline"}
                   onClick={() => setFilterBy("Marketing Campaign")}
                   size="sm"
+                  className={filterBy === "Marketing Campaign" ? "gradient-primary text-white" : ""}
                 >
                   Campaigns
                 </Button>
@@ -136,6 +166,7 @@ const SavedStrategies = () => {
                   variant={filterBy === "Customer Retention" ? "default" : "outline"}
                   onClick={() => setFilterBy("Customer Retention")}
                   size="sm"
+                  className={filterBy === "Customer Retention" ? "gradient-primary text-white" : ""}
                 >
                   Retention
                 </Button>
@@ -146,7 +177,7 @@ const SavedStrategies = () => {
 
         {/* Strategies Grid */}
         {filteredStrategies.length === 0 ? (
-          <Card className="text-center py-12">
+          <Card className="glass-card shadow-soft text-center py-12">
             <CardContent>
               <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No strategies found</h3>
@@ -156,7 +187,7 @@ const SavedStrategies = () => {
                   : "Create your first AI-powered marketing strategy"}
               </p>
               <Link to="/app/create">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Button className="gradient-primary text-white shadow-blue">
                   Create Strategy
                 </Button>
               </Link>
@@ -165,7 +196,7 @@ const SavedStrategies = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredStrategies.map((strategy) => (
-              <Card key={strategy.id} className="hover:shadow-lg transition-shadow">
+              <Card key={strategy.id} className="glass-card shadow-soft hover:shadow-elegant transition-all duration-300 hover-scale">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -208,17 +239,34 @@ const SavedStrategies = () => {
                   </div>
                   
                   <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => handleViewStrategy(strategy)}
+                    >
                       <Eye className="w-4 h-4 mr-1" />
                       View
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => handleEditStrategy(strategy)}
+                    >
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => handleCopyStrategy(strategy)}
+                    >
                       <Copy className="w-4 h-4" />
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => handleDownloadStrategy(strategy)}
+                    >
                       <Download className="w-4 h-4" />
                     </Button>
                   </div>
