@@ -16,59 +16,58 @@
 
 @layer base {
   :root {
-    /* StrategIQ Dark Design System */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Black & White Dark Design System */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 222.2 84% 6%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
 
-    /* Primary: Deep Violet #5F4DFF */
-    --primary: 254 100% 66%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary: White */
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
     /* Secondary: Dark Gray */
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 70%;
 
-    /* Accent: Sky Blue #A7DFFF */
-    --accent: 207 100% 83%;
-    --accent-foreground: 222.2 84% 4.9%;
+    /* Accent: White */
+    --accent: 0 0% 100%;
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 0% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 254 100% 66%;
+    --border: 0 0% 20%;
+    --input: 0 0% 10%;
+    --ring: 0 0% 100%;
 
     --radius: 0.75rem;
 
-    /* StrategIQ Dark Color Palette */
-    --violet-primary: 254 100% 66%;
-    --sky-blue: 207 100% 83%;
-    --sunset-orange: 16 100% 74%;
-    --lilac-pink: 286 76% 89%;
-    --light-yellow: 54 100% 84%;
+    /* Black & White Palette */
+    --pure-black: 0 0% 0%;
+    --pure-white: 0 0% 100%;
+    --dark-gray: 0 0% 10%;
+    --light-gray: 0 0% 90%;
     
     /* Dark Backgrounds */
-    --dark-bg: 222.2 84% 4.9%;
-    --dark-card: 222.2 84% 6%;
+    --dark-bg: 0 0% 0%;
+    --dark-card: 0 0% 5%;
 
-    --sidebar-background: 222.2 84% 4.9%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 254 100% 66%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 217.2 32.6% 17.5%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217.2 32.6% 17.5%;
-    --sidebar-ring: 254 100% 66%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 0 0% 100%;
   }
 }
 
@@ -78,28 +77,28 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900 text-foreground min-h-screen font-body;
+    @apply bg-black text-white min-h-screen font-body;
   }
 }
 
 @layer utilities {
   /* StrategIQ Design System Utilities */
   
-  /* Brand Gradients */
+  /* Brand Gradients - Black & White */
   .gradient-primary {
-    @apply bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500;
+    @apply bg-gradient-to-r from-white to-gray-200;
   }
   
   .gradient-secondary {
-    @apply bg-gradient-to-r from-sky-300 via-blue-300 to-indigo-300;
+    @apply bg-gradient-to-r from-gray-800 to-black;
   }
   
   .gradient-accent {
-    @apply bg-gradient-to-r from-orange-300 via-pink-300 to-purple-300;
+    @apply bg-gradient-to-r from-gray-600 to-gray-400;
   }
   
   .gradient-soft {
-    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900;
+    @apply bg-black;
   }
   
   /* Card Styles */
@@ -125,30 +124,30 @@
     @apply transition-transform duration-200 hover:scale-105;
   }
   
-  /* Shadows */
-  .shadow-violet {
-    box-shadow: 0 10px 25px -5px hsl(var(--violet-primary) / 0.1), 0 4px 6px -2px hsl(var(--violet-primary) / 0.05);
+  /* Shadows - Black & White */
+  .shadow-primary {
+    box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05);
   }
   
   .shadow-soft {
-    @apply shadow-lg shadow-gray-200/50;
+    @apply shadow-lg shadow-gray-800/50;
   }
   
-  /* Text Gradients */
+  /* Text Gradients - Black & White */
   .text-gradient {
-    @apply bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent;
   }
   
   .text-gradient-accent {
-    @apply bg-gradient-to-r from-sky-500 to-purple-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-gray-200 to-white bg-clip-text text-transparent;
   }
   
-  /* Button Styles */
+  /* Button Styles - Black & White */
   .btn-primary {
-    @apply bg-primary text-primary-foreground shadow-violet hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-200;
+    @apply bg-white text-black shadow-primary hover:bg-gray-200 hover:-translate-y-0.5 transition-all duration-200;
   }
   
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground border border-border hover:bg-muted hover:-translate-y-0.5 transition-all duration-200;
+    @apply bg-gray-800 text-white border border-gray-600 hover:bg-gray-700 hover:-translate-y-0.5 transition-all duration-200;
   }
 }
