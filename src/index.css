@@ -16,58 +16,58 @@
 
 @layer base {
   :root {
-    /* StrategIQ Design System */
-    --background: 0 0% 98%;
-    --foreground: 222.2 84% 4.9%;
+    /* StrategIQ Dark Design System */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 96%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 222.2 84% 6%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
     /* Primary: Deep Violet #5F4DFF */
     --primary: 254 100% 66%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Light Gray */
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
+    /* Secondary: Dark Gray */
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
     /* Accent: Sky Blue #A7DFFF */
     --accent: 207 100% 83%;
     --accent-foreground: 222.2 84% 4.9%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
     --ring: 254 100% 66%;
 
     --radius: 0.75rem;
 
-    /* StrategIQ Color Palette */
+    /* StrategIQ Dark Color Palette */
     --violet-primary: 254 100% 66%;
     --sky-blue: 207 100% 83%;
     --sunset-orange: 16 100% 74%;
     --lilac-pink: 286 76% 89%;
     --light-yellow: 54 100% 84%;
     
-    /* Backgrounds */
-    --soft-white: 0 0% 98%;
-    --light-gray-card: 240 5% 96%;
+    /* Dark Backgrounds */
+    --dark-bg: 222.2 84% 4.9%;
+    --dark-card: 222.2 84% 6%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
     --sidebar-primary: 254 100% 66%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 222.2 84% 4.9%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
     --sidebar-ring: 254 100% 66%;
   }
 }
@@ -78,7 +78,7 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-violet-50 via-sky-50 to-orange-50 text-foreground min-h-screen font-body;
+    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900 text-foreground min-h-screen font-body;
   }
 }
 
@@ -99,7 +99,7 @@
   }
   
   .gradient-soft {
-    @apply bg-gradient-to-br from-violet-50 via-sky-50 to-orange-50;
+    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900;
   }
   
   /* Card Styles */
