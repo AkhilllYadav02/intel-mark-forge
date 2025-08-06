@@ -39,7 +39,7 @@ const AppContent = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <div className="dark">
+      <div>
         <Toaster />
         <BrowserRouter>
           <AppContent />

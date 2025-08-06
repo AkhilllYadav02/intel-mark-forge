@@ -16,37 +16,37 @@
 
 @layer base {
   :root {
-    /* Black & White Dark Design System */
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    /* Black & White Light Design System */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 0%;
 
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
 
-    /* Primary: White */
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
+    /* Primary: Black */
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Dark Gray */
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary: Light Gray */
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
 
-    /* Accent: White */
-    --accent: 0 0% 100%;
-    --accent-foreground: 0 0% 0%;
+    /* Accent: Black */
+    --accent: 0 0% 0%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 0% 50%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 10%;
-    --ring: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 95%;
+    --ring: 0 0% 0%;
 
     --radius: 0.75rem;
 
@@ -56,18 +56,18 @@
     --dark-gray: 0 0% 10%;
     --light-gray: 0 0% 90%;
     
-    /* Dark Backgrounds */
-    --dark-bg: 0 0% 0%;
-    --dark-card: 0 0% 5%;
+    /* Light Backgrounds */
+    --light-bg: 0 0% 100%;
+    --light-card: 0 0% 98%;
 
-    --sidebar-background: 0 0% 0%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 0 0% 100%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: 0 0% 0%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 95%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 0 0% 0%;
   }
 }
 
@@ -77,28 +77,28 @@
   }
 
   body {
-    @apply bg-black text-white min-h-screen font-body;
+    @apply bg-background text-foreground min-h-screen font-body;
   }
 }
 
 @layer utilities {
   /* StrategIQ Design System Utilities */
   
-  /* Brand Gradients - Black & White */
+  /* Brand Gradients - Black & White Light */
   .gradient-primary {
-    @apply bg-gradient-to-r from-white to-gray-200;
+    @apply bg-gradient-to-r from-black to-gray-800;
   }
   
   .gradient-secondary {
-    @apply bg-gradient-to-r from-gray-800 to-black;
+    @apply bg-gradient-to-r from-gray-200 to-white;
   }
   
   .gradient-accent {
-    @apply bg-gradient-to-r from-gray-600 to-gray-400;
+    @apply bg-gradient-to-r from-gray-400 to-gray-600;
   }
   
   .gradient-soft {
-    @apply bg-black;
+    @apply bg-white;
   }
   
   /* Card Styles */
@@ -112,7 +112,7 @@
   
   /* Glass Effects - Light Theme */
   .glass-light {
-    @apply backdrop-blur-lg bg-white/80 border border-border/50 shadow-sm;
+    @apply backdrop-blur-lg bg-white/90 border border-border/50 shadow-sm;
   }
   
   /* Interactive Elements */
@@ -124,30 +124,30 @@
     @apply transition-transform duration-200 hover:scale-105;
   }
   
-  /* Shadows - Black & White */
+  /* Shadows - Black & White Light */
   .shadow-primary {
-    box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
   
   .shadow-soft {
-    @apply shadow-lg shadow-gray-800/50;
+    @apply shadow-lg shadow-gray-200/50;
   }
   
-  /* Text Gradients - Black & White */
+  /* Text Gradients - Black & White Light */
   .text-gradient {
-    @apply bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-black to-gray-700 bg-clip-text text-transparent;
   }
   
   .text-gradient-accent {
-    @apply bg-gradient-to-r from-gray-200 to-white bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-gray-800 to-black bg-clip-text text-transparent;
   }
   
-  /* Button Styles - Black & White */
+  /* Button Styles - Black & White Light */
   .btn-primary {
-    @apply bg-white text-black shadow-primary hover:bg-gray-200 hover:-translate-y-0.5 transition-all duration-200;
+    @apply bg-black text-white shadow-primary hover:bg-gray-800 hover:-translate-y-0.5 transition-all duration-200;
   }
   
   .btn-secondary {
-    @apply bg-gray-800 text-white border border-gray-600 hover:bg-gray-700 hover:-translate-y-0.5 transition-all duration-200;
+    @apply bg-gray-200 text-black border border-gray-400 hover:bg-gray-300 hover:-translate-y-0.5 transition-all duration-200;
   }
 }
